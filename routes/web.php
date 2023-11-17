@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/files', 'FileController@index')->name('files.index');
+Route::post('/files/search', 'FileController@search')->name('files.search');
+
