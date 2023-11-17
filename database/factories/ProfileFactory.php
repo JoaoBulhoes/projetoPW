@@ -21,7 +21,7 @@ class ProfileFactory extends Factory
             'alterar_foto_perfil' => fake()->numberBetween(0,1),
             'alterar_username' => fake()->numberBetween(0,1),
             'alterar_email' => fake()->numberBetween(0,1),
-            //'user_id' => fake()->unique()->numberBetween(1,15)
+            'user_id' => fake()->unique()->numberBetween(1,15)
         ];
     }
 }
