@@ -20,6 +20,12 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained();
             $table->foreignId('department_id')->constrained();
         });
+
+        Schema::create('department_permission', function (Blueprint $table) {
+            $table->foreignId('permission_id')->constrained();
+            $table->foreignId('department_id')->constrained();
+        });
+
     }
 
     /**
@@ -29,5 +35,6 @@ return new class extends Migration {
     {
         Schema::dropIfExists('departments');
         Schema::dropIfExists('department_user');
+        Schema::dropIfExists('department_permission');
     }
 };

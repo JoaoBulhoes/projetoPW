@@ -22,4 +22,10 @@ class Permission extends Model
     {
         $this->belongsTo(Document::class);
     }
+
+    public function departments()
+    {
+        $this->belongsToMany(Department::class);
+    }
+
 }
