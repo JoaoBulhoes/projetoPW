@@ -4,13 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Revision extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-    public function Document(){
-        return $this->hasOne(Document::class);
+    protected $fillable = [
+        'path',
+        'document_id'
+    ];
+
+    public function document(){
+        $this->hasOne(Document::class);
     }
 }

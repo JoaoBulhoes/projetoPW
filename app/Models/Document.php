@@ -4,25 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Document extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-    public function Metadata(){
-        return $this->hasMany(Metadata::class);
-    }
+    protected $fillable = [
+        'path'
+    ];
 
-    public function Revision(){
-        return $this->belongsTo(Revision::class);
-    }
-
-    public function DocumentPermission(){
-        return $this->hasMany(DocumentPermission::class);
-    }
-
-    public function User(){
-        return $this->belongsTo(User::class);
+    public function revisions(){
+        $this->belongsToMany(Document::class);
     }
 }
