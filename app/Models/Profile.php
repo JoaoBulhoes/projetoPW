@@ -10,7 +10,7 @@ class Profile extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function User(){
+    public function user(){
         $this->belongsTo(User::class);
     }
 }

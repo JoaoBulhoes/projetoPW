@@ -44,19 +44,19 @@ class User extends Model
         'password' => 'hashed',
     ];
 
-    public function Department(){
+    public function department(){
         return $this->belongsTo(Department::class);
     }
 
-    public function Profile(){
-        return $this->hasMany(Profile::class);
+    public function profiles(){
+        return $this->hasmany(Profile::class);
     }
 
-    public function Document(){
+    public function document(){
         return $this->hasMany(Document::class);
     }
 
-    public function DocumentPermission(){
+    public function documentPermission(){
         return $this->belongsTo(DocumentPermission::class);
     }
 }

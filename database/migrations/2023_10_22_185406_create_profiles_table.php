@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->boolean('alterar_foto_perfil');
-            $table->boolean('alterar_username');
-            $table->boolean('alterar_email');
-            $table->foreignId('user_id');
+            $table->string('name');
+            $table->boolean('create_user')->default(false);
+            $table->boolean('manage_user')->default(false);
+            $table->boolean('delete_user')->default(false);
+            $table->boolean('create_department')->default(false);
+            $table->boolean('delete_department')->default(false);
+            $table->boolean('access_admin_dashboard')->default(false);
         });
     }
 
