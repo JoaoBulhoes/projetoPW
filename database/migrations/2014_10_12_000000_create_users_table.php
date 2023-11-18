@@ -18,9 +18,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes();
+            $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('profile_id');
-            $table->foreignId('document_id');
         });
     }
 
