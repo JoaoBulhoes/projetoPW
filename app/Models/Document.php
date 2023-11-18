@@ -13,7 +13,14 @@ class Document extends Model
         'path'
     ];
 
-    public function revisions(){
+    public function revisions()
+    {
         $this->belongsToMany(Document::class);
     }
+
+    public function permission()
+    {
+        $this->hasMany(Permission::class);
+    }
+
 }
