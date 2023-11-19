@@ -23,4 +23,9 @@ class Document extends Model
         $this->hasMany(Permission::class);
     }
 
+    public function metadata_types()
+    {
+        $this->belongsToMany(MetadataType::class);
+    }
+
 }
