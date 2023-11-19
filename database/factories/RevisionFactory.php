@@ -18,6 +18,7 @@ class RevisionFactory extends Factory
     {
         return [
             'created_at' => fake()->dateTime(),
+            'path' => fake()->filePath(),
             'document_id' => fake()->numberBetween(1, 15)
         ];
     }
