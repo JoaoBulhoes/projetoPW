@@ -3,9 +3,13 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Department;
 use App\Models\Document;
 use App\Models\DocumentPermission;
+use App\Models\FileLink;
 use App\Models\Metadata;
+use App\Models\MetadataType;
+use App\Models\Permission;
 use App\Models\Profile;
 use App\Models\Revision;
 use App\Models\User;
@@ -25,11 +29,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Metadata::factory(30)->create();
-        Document::factory(20)->create();
-        DocumentPermission::factory(5)->create();
-        Profile::factory(15)->create();
-        Revision::factory(10)->create();
-        User::factory(15)->create();
+        User::factory(30)->create();
+        Document::factory(30)->create();
+        Revision::factory(30)->create();
+        Permission::factory(30)->create();
+        Department::factory(30)->create();
+        Profile::factory(30)->create();
+        FileLink::factory(30)->create();
+        MetadataType::factory(30)->create();
     }
 }
