@@ -28,4 +28,9 @@ class Document extends Model
         $this->belongsToMany(MetadataType::class);
     }
 
+    public function file_links()
+    {
+        $this->hasOne(FileLink::class);
+    }
+
 }
