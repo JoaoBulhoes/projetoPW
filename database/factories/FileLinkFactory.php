@@ -17,9 +17,9 @@ class FileLinkFactory extends Factory
     public function definition(): array
     {
         return [
-            'uuid' => fake()->uuid(),
             'expiration_date' => fake()->dateTimeThisYear(),
             'document_id' => fake()->numberBetween(1, 15),
+            'user_id' => fake()->numberBetween(1, 15),
         ];
     }
 }
