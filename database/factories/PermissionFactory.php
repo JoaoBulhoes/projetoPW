@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DocumentPermission>
  */
-class DocumentPermissionFactory extends Factory
+class PermissionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,11 +18,11 @@ class DocumentPermissionFactory extends Factory
     {
         return [
             'created_at' => fake()->dateTime(),
-            'view' => fake()->numberBetween(0,1),
-            'modify' => fake()->numberBetween(0,1),
-            'delete' => fake()->numberBetween(0,1),
-            'download' => fake()->numberBetween(0,1),
-            'document_id' => fake()->numberBetween(1,10),
+            'read' => fake()->boolean(50),
+            'modify' => fake()->boolean(50),
+            'delete' => fake()->boolean(50),
+            'download' => fake()->boolean(50),
+            'document_id' => fake()->numberBetween(1, 15),
             'user_id' => fake()->numberBetween(1,15)
         ];
     }
