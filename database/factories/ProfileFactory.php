@@ -17,8 +17,13 @@ class ProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            'created_at' => fake()->dateTime(),
             'name' => fake()->name,
+            'create_user' => fake()->boolean(50),
+            'manage_user' => fake()->boolean(50),
+            'delete_user' => fake()->boolean(50),
+            'create_department' => fake()->boolean(50),
+            'delete_department' => fake()->boolean(50),
+            'access_admin_dashboard' => fake()->boolean(50),
         ];
     }
 }
