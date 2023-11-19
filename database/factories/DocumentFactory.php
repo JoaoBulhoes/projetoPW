@@ -17,9 +17,7 @@ class DocumentFactory extends Factory
     public function definition(): array
     {
         return [
-            'created_at' => fake()->dateTime(),
-            'public' => fake()->numberBetween(0,1),
-            'metadata_id' => fake()->numberBetween(1, 15)
+            'path' => fake()->filePath(),
         ];
     }
 }
