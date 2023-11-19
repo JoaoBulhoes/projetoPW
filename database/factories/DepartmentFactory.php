@@ -17,9 +17,7 @@ class DepartmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'created_at' => fake()->dateTimeBetween("2023-01-01", "2023-12-31"),
             'name' => fake()->name(),
-            'user_id' => fake()->numberBetween(1, 5)
         ];
     }
 }
