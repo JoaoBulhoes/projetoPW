@@ -21,13 +21,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'created_at' => fake()->dateTime(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
-            'profile_id' => fake()->numberBetween(1,4),
-            'document_id' => fake()->numberBetween(1,4),
-            'remember_token' => Str::random(10)
         ];
     }
 
