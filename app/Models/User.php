@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Department::class);
     }
+
+    public function profiles()
+    {
+        return $this->hasMany(Department::class);
+    }
 }

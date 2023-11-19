@@ -19,7 +19,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('profile_id');
         });
     }
 
