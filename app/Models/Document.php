@@ -18,7 +18,7 @@ class Document extends Model
         $this->belongsToMany(Document::class);
     }
 
-    public function permission()
+    public function permissions()
     {
         $this->hasMany(Permission::class);
     }
