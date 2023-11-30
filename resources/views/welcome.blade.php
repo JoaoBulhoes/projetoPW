@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>{{ env('APP_NAME') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,6 +16,29 @@
         </style>
     </head>
     <body class="antialiased">
+
+{{--        <pre>--}}
+{{--        {{ $results = \App\Models\PunchEventType::all() }}--}}
+{{--        {{ print_r($results->toArray()) }}--}}
+{{--        {{ $results = \App\Models\User::all() }}--}}
+{{--        {{ $eventType = \App\Models\PunchEventType::find(1) }}--}}
+{{--            {{ var_dump($eventType) }}--}}
+{{--            {{ $eventType->delete() }}--}}
+{{--            {{ $results = \App\Models\PunchEventType::all() }}--}}
+{{--            {{ dd($results->toArray()) }}--}}
+{{--            {{ $eventType->update(['name' =>'Bananas da madeira']) }}--}}
+
+{{--            {{ $eventType->name = 'Maça raineta' }}--}}
+{{--            {{ $eventType->save() }}--}}
+
+
+{{--           {{   \App\Models\PunchEvent::find(456)->punchEventType->name }}--}}
+
+{{--            @foreach(\App\Models\PunchEventType::find(1)->punchEvents as $result)--}}
+{{--                {{ $result->created_at . ' ' . $result->punchEventType->name . ' ' . $result->employee->name }}--}}
+{{--            @endforeach--}}
+{{--        </pre>--}}
+
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
             @if (Route::has('login'))
                 <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
