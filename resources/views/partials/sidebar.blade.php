@@ -34,6 +34,12 @@
             <span>Utilizadores</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('documents.index') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Documentos</span></a>
+    </li>
+
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
