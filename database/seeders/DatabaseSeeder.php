@@ -11,6 +11,7 @@ use App\Models\Permission;
 use App\Models\Profile;
 use App\Models\Revision;
 use App\Models\User;
+use Grpc\Call;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
@@ -29,6 +30,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         if (App::environment() == 'local') {
+            $this->call(DefaultUserSeeder::class);
+
             User::factory(30)->create();
             Document::factory(30)->create();
             Revision::factory(30)->create();
