@@ -34,7 +34,11 @@ class UserPolicy
             ->where("profile_user.user_id", "=", $user->id)
             ->select("profiles.name")->get();
 
-        return $queryResult[0]->name == "admin";
+        if ($queryResult->count() > 0) {
+            return $queryResult[0]->name == "admin";
+        }
+
+        return false;
     }
 
     /**
@@ -48,7 +52,11 @@ class UserPolicy
             ->where("profile_user.user_id", "=", $user->id)
             ->select("profiles.name")->get();
 
-        return $queryResult[0]->name == "admin";
+        if ($queryResult->count() > 0) {
+            return $queryResult[0]->name == "admin";
+        }
+
+        return false;
     }
 
     /**
@@ -62,7 +70,11 @@ class UserPolicy
             ->where("profile_user.user_id", "=", $user->id)
             ->select("profiles.name")->get();
 
-        return $queryResult[0]->name == "admin";
+        if ($queryResult->count() > 0) {
+            return $queryResult[0]->name == "admin";
+        }
+
+        return false;
     }
 
     /**
