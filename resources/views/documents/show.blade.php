@@ -2,7 +2,7 @@
 
 @section('main-content')
 
-    <h1>Ficha de funcionario</h1>
+    <h1 class="text-md-center" style="color: white">Documento</h1>
 
     <div class="row">
         <div class="col">
@@ -11,8 +11,25 @@
                     Dados Gerais
                 </div>
                 <card-body>
-                    ola {{ $document->path }}
-                    ola {{ $document->metadata_types }}
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Path</th>
+                            <th>Metadata Types</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>{{ $document->path }}</td>
+                            <td>
+                                @foreach($document->metadata_types as $mdataType)
+                                    <p>{{ $mdataType->name }}</p>
+                                @endforeach
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </card-body>
             </div>
         </div>
