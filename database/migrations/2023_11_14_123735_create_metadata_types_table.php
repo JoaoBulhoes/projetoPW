@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
         });
 
-        Schema::create('metadata_type_document', function (Blueprint $table) {
+        Schema::create('document_metadata_type', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('value');
@@ -32,6 +32,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('metadata_types');
-        Schema::dropIfExists('metadata_type_document');
+        Schema::dropIfExists('document_metadata_type');
     }
 };

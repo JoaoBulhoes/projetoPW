@@ -15,22 +15,22 @@ class Document extends Model
 
     public function revisions()
     {
-        $this->belongsToMany(Document::class);
+        return $this->belongsToMany(Document::class);
     }
 
     public function permissions()
     {
-        $this->hasMany(Permission::class);
+        return $this->hasMany(Permission::class);
     }
 
     public function metadata_types()
     {
-        $this->belongsToMany(MetadataType::class);
+        return $this->belongsToMany(MetadataType::class);
     }
 
     public function file_links()
     {
-        $this->hasOne(FileLink::class);
+        return $this->hasOne(FileLink::class);
     }
 
 }

@@ -11,7 +11,8 @@
                     Dados Gerais
                 </div>
                 <card-body>
-                    ola {{ $document->name }}
+                    ola {{ $document->path }}
+                    ola {{ $document->metadata_types }}
                 </card-body>
             </div>
         </div>
