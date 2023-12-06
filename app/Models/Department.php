@@ -18,9 +18,9 @@ class Department extends Model
         return $this->hasMany(User::class);
     }
 
-    public function permissions()
+    public function documents()
     {
-        return $this->hasMany(Permission::class);
+        return $this->hasMany(Document::class);
     }
 
 }

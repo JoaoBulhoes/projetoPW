@@ -23,6 +23,11 @@ class Document extends Model
         return $this->hasMany(Permission::class);
     }
 
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class);
+    }
+
     public function metadata_types()
     {
         return $this->belongsToMany(MetadataType::class);
