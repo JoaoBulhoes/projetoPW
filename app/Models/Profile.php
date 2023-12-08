@@ -21,6 +21,6 @@ class Profile extends Model
 
     public function users()
     {
-        return $this->belongsToMany(Department::class);
+        return $this->hasMany(User::class);
     }
 }

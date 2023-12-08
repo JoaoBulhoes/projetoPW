@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Department;
+use App\Models\Profile;
 use App\Models\User;
+use Exception;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->authorizeResource(User::class, 'user');
-//    }
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
 
     /**
      * Display a listing of the resource.
@@ -32,7 +37,15 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $departments = Department::all();
+        $profiles = Profile::all();
+        return view(
+            'users.create',
+            [
+                'departments' => $departments,
+                'profiles' => $profiles
+            ]
+        );
     }
 
     /**
@@ -40,7 +53,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::create([
+            "name" => $request->name,
+            "email" => $request->email,
+            "password" => Hash::make($request->password),
+        ]);
+
+        $user->departments()->attach($request->department_id);
+
+        $user->profiles()->attach($request->profile_id);
+
+        $user->save();
+
+        return redirect()->route('users.index');
     }
 
     /**
