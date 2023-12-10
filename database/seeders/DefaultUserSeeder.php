@@ -15,11 +15,14 @@ class DefaultUserSeeder extends Seeder
     public function run(): void
     {
 
-        User::create([
-            'name' => 'asdf',
+        $user = User::create([
+            'name' => 'a',
             'email' => "a@a",
             'password' => bcrypt('123456789'),
             'email_verified_at' => Carbon::now(),
         ]);
+
+        $user->profiles()->attach(1);
+
     }
 }

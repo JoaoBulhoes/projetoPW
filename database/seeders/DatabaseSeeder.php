@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         if (App::environment() == 'local') {
+            $this->call(AdminProfileSeeder::class);
             $this->call(DefaultUserSeeder::class);
 
             User::factory(30)->create();
