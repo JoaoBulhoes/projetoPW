@@ -103,8 +103,13 @@ class DocumentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Document $document)
     {
-        //
+        if (!Auth::user()->can('delete', $document)) {
+            abort(405);
+        }
+
+        $document->delete();
+        return redirect()->route('documents.index');
     }
 }

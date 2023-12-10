@@ -27,19 +27,27 @@
                             <td>{{ $document->path }}</td>
                             <td class="text-end">
                                 @can('view', $document)
-                                    <a href="{{ route('documents.show', ['document' => $document]) }}" class="btn btn-primary btn-sm">Ver</a>
+                                    <a href="{{ route('documents.show', ['document' => $document]) }}"
+                                       class="btn btn-primary btn-sm">Ver</a>
                                 @endcan
 
                                 @can('download', $document)
-                                    <a href="{{ route('documents.edit', ['document' => $document]) }}" class="btn btn-primary btn-sm">Download</a>
+                                    <a href="{{ route('documents.edit', ['document' => $document]) }}"
+                                       class="btn btn-primary btn-sm">Download</a>
                                 @endcan
 
                                 @can('update', $document)
-                                    <a href="{{ route('documents.edit', ['document' => $document]) }}" class="btn btn-warning btn-sm">Modificar</a>
+                                    <a href="{{ route('documents.edit', ['document' => $document]) }}"
+                                       class="btn btn-warning btn-sm">Modificar</a>
                                 @endcan
 
                                 @can('delete', $document)
-                                    <a href="{{ route('documents.edit', ['document' => $document]) }}" class="btn btn-danger btn-sm">Apagar</a>
+                                    <form action="{{ route('documents.destroy', ['document' => $document]) }}"
+                                          method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Apagar</button>
+                                    </form>
                                 @endcan
                             </td>
                         </tr>
@@ -47,7 +55,7 @@
                     </tbody>
                 </table>
 
-                    {{ $documents->links() }}
+                {{ $documents->links() }}
             </div>
         </div>
     </div>
