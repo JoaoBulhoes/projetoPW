@@ -23,22 +23,32 @@
 
                 <tbody>
                     @foreach($users as $user)
-                        <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->code }}</td>
-                            <td class="text-end">
-                                <a href="{{ route('users.show', ['user' => $user]) }}" class="btn btn-primary btn-sm">Ver</a>
+                        @if($user->id !== \Illuminate\Support\Facades\Auth::id())
+                            <tr>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->code }}</td>
+                                <td class="text-end">
+                                    <a href="{{ route('users.show', ['user' => $user]) }}" class="btn btn-primary btn-sm">Ver</a>
 
-                                @can('update', $user)
-                                    <a href="{{ route('users.edit', ['user' => $user]) }}" class="btn btn-warning btn-sm">Modificar</a>
-                                @endcan
-                            </td>
-                        </tr>
+                                    @can('update', $user)
+                                        <a href="{{ route('users.edit', ['user' => $user]) }}" class="btn btn-warning btn-sm">Modificar</a>
+                                    @endcan
+
+                                    @can('delete', $user)
+                                        <form action="{{ route('users.destroy', ['user' => $user]) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Apagar</button>
+                                        </form>
+                                    @endcan
+                                </td>
+                            </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>
 
-            {{ $users->links() }}
+                {{ $users->links() }}
         </div>
     </div>
 </div>

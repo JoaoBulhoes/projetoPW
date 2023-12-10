@@ -6,9 +6,8 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Department;
 use App\Models\Profile;
 use App\Models\User;
-use Exception;
-use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -109,6 +108,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        if (!Auth::user()->can('delete', $user)) {
+            abort(405);
+        }
+
+        $user->delete();
+        return redirect()->route('users.index');
     }
 }
