@@ -29,7 +29,7 @@ class Document extends Model
         return $this->belongsToMany(Department::class);
     }
 
-    public function metadata_types()
+    public function metadataTypes()
     {
         return $this->belongsToMany(MetadataType::class);
     }

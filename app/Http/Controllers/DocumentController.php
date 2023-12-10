@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
+use App\Models\MetadataType;
+use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
 {
@@ -26,7 +29,13 @@ class DocumentController extends Controller
      */
     public function create()
     {
-        //
+        $metadataTypes = MetadataType::all();
+        return view(
+            'documents.create',
+            [
+                'metadataTypes' => $metadataTypes
+            ]
+        );
     }
 
     /**
@@ -34,7 +43,27 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $document = Document::create([
+            "path" => $request->name,
+        ]);
+
+        $document->metadataTypes()->attach($request->metadataType_id, [
+            'value' => $request->metadataType_value,
+        ]);
+
+        $authorPermission = Permission::create([
+            'read' => 1,
+            'modify' => 1,
+            'delete' => 1,
+            'download' => 1,
+            'document_id' => $document->id,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        $authorPermission->save();
+        $document->save();
+
+        return redirect()->route('documents.index');
     }
 
     /**

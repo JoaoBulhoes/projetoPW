@@ -4,13 +4,13 @@
     <div class="container">
         <div class="row mt-5">
             <div class="col">
-                @can('create', \App\Models\Document::class)
+{{--                @can('create', \App\Models\Document::class)--}}
                     <p class="text-right">
                         <a href="{{ route('documents.create') }}" class="btn btn-primary">
-                            <i class="fa fa-plus fa-fw mr-2"></i>Adicionar Utilizador
+                            <i class="fa fa-plus fa-fw mr-2"></i>Adicionar Documento
                         </a>
                     </p>
-                @endcan
+{{--                @endcan--}}
 
                 <table class="table table-striped table-hover">
                     <thead>

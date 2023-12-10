@@ -23,7 +23,7 @@
                         <tr>
                             <td>{{ $document->path }}</td>
                             <td>
-                                @foreach($document->metadata_types as $mdataType)
+                                @foreach($document->metadataTypes as $mdataType)
                                     <p>{{ $mdataType->name }}</p>
                                 @endforeach
                             </td>
