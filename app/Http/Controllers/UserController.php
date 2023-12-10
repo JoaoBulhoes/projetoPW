@@ -108,12 +108,10 @@ class UserController extends Controller
             abort(404);
         }
 
+        $user->departments()->detach($request->department_id);
+
         if ($request->add_department && !$user->departments->contains($request->department_id)) {
             $user->departments()->attach($request->department_id);
-        }
-
-        if (!$request->add_department && $user->departments->contains($request->department_id)) {
-            $user->departments()->detach($request->department_id);
         }
 
         $user->save();
