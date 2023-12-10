@@ -85,10 +85,12 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $departments = Department::all();
         return view(
             'users.edit',
             [
-                'user' => $user
+                'user' => $user,
+                'departments' => $departments
             ]
         );
     }
@@ -96,11 +98,27 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
-        $user->update($request->toDTO()->toArray());
-        return redirect()
-            ->route('users.show', ['user' => $user]);
+        $user->update([
+            'name' => $request->name,
+        ]);
+
+        if (!$request->department_id) {
+            abort(404);
+        }
+
+        if ($request->add_department && !$user->departments->contains($request->department_id)) {
+            $user->departments()->attach($request->department_id);
+        }
+
+        if (!$request->add_department && $user->departments->contains($request->department_id)) {
+            $user->departments()->detach($request->department_id);
+        }
+
+        $user->save();
+
+        return redirect()->route('users.show', ['user' => $user]);
     }
 
     /**
