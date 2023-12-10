@@ -86,11 +86,13 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $departments = Department::all();
+        $profiles = Profile::all();
         return view(
             'users.edit',
             [
                 'user' => $user,
-                'departments' => $departments
+                'departments' => $departments,
+                'profiles' => $profiles,
             ]
         );
     }
@@ -104,14 +106,20 @@ class UserController extends Controller
             'name' => $request->name,
         ]);
 
-        if (!$request->department_id) {
+        if (!$request->department_id || !$request->profile_id) {
             abort(404);
         }
 
         $user->departments()->detach($request->department_id);
 
+        $user->profiles()->detach($request->profile_id);
+
         if ($request->add_department && !$user->departments->contains($request->department_id)) {
             $user->departments()->attach($request->department_id);
+        }
+
+        if ($request->add_profile && !$user->profiles->contains($request->profile_id)) {
+            $user->profiles()->attach($request->profile_id);
         }
 
         $user->save();

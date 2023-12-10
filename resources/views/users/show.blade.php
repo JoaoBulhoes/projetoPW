@@ -16,6 +16,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Departments</th>
+                            <th>Profiles</th>
                         </tr>
                         </thead>
 
@@ -25,6 +26,11 @@
                             <td>
                                 @foreach($user->departments as $department)
                                     <p>{{ $department->name }}</p>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($user->profiles as $profile)
+                                    <p>{{ $profile->name }}</p>
                                 @endforeach
                             </td>
                         </tr>
