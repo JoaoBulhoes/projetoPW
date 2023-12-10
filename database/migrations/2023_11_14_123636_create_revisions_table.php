@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('revisions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->string('path');
             $table->foreignId('document_id')->constrained();
         });

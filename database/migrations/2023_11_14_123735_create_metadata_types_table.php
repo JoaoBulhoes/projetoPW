@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('metadata_types', function (Blueprint $table) {
             $table->id();
+            $table->softDeletes();
             $table->timestamps();
             $table->string('name');
         });
