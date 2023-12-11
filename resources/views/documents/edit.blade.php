@@ -38,7 +38,7 @@
                         <br>
 
                         Valor:
-                        <input type="text" name="value" class="form-control">
+                        <input type="text" name="value" required class="form-control">
 
                         <br>
                         @error('metadataTypes') <span class="text-danger">{{ $message }}</span><br>@enderror
