@@ -59,8 +59,9 @@
                         </select>
                         <br>
                         @error('departments') <span class="text-danger">{{ $message }}</span><br>@enderror
-                        <button type="submit" class="btn btn-success btn-lg">Guardar Modificações</button>
                     </fildset>
+
+                    <button type="submit" class="btn btn-success btn-lg">Guardar Modificações</button>
                 </form>
 
             </div>

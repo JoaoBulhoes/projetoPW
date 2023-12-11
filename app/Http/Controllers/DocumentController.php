@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\MetadataType;
 use App\Models\Permission;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,12 +83,14 @@ class DocumentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Document $documents)
+    public function edit(Document $document)
     {
+        $metadataTypes = MetadataType::all();
         return view(
             'documents.edit',
             [
-                'documents' => $documents
+                'document' => $document,
+                'metadataTypes' => $metadataTypes
             ]
         );
     }
@@ -95,9 +98,25 @@ class DocumentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Document $document)
     {
-        //
+        $document->update([
+            'name' => $request->name,
+        ]);
+
+        if (!$request->metadataType_id || !$request->value) {
+            abort(404);
+        }
+
+        $document->metadataTypes()->detach($request->metadataType_id);
+
+        if ($request->add_metadataType && !$document->metadataTypes->contains($request->metadataType_id)) {
+            $document->metadataTypes()->attach($request->metadataType_id, ['value' => $request->value]);
+        }
+
+        $document->save();
+
+        return redirect()->route('documents.show', ['document' => $document]);
     }
 
     /**
