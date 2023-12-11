@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -12,7 +14,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::orderBy('name');
+        $departments = Department::orderBy('name')->paginate(25);
         return view(
             'departments.index',
             [
@@ -26,7 +28,9 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        return view(
+            'departments.create', []
+        );
     }
 
     /**
@@ -34,18 +38,23 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $department = Department::create([
+            'name' => $request->name
+        ]);
+
+        $department->save();
+        return redirect()->route('departments.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Department $department)
     {
         return view(
             'departments.show',
             [
-                'departments' => Department::findOrFail($id)
+                'department' => $department
             ]
         );
     }
@@ -69,8 +78,13 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Department $department)
     {
-        //
+        if (!Auth::user()->can('delete', $department)) {
+            abort(405);
+        }
+
+        $department->delete();
+        return redirect()->route('departments.index');
     }
 }
