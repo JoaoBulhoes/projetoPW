@@ -22,7 +22,6 @@
 
                 <tbody>
                     @foreach($departments as $department)
-                        @if($department->id !== \Illuminate\Support\Facades\Auth::id())
                             <tr>
                                 <td>{{ $department->name }}</td>
                                 <td class="text-end">
@@ -35,7 +34,6 @@
                                     @endcan
                                 </td>
                             </tr>
-                        @endif
                     @endforeach
                 </tbody>
             </table>
