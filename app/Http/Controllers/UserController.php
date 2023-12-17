@@ -6,8 +6,8 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Department;
 use App\Models\Profile;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -22,6 +22,9 @@ class UserController extends Controller
      */
     public function index()
     {
+        $userService = new UserService();
+        $userService->can("view", User::class);
+
         $users = User::orderBy('name')->paginate(25);
         return view(
             'users.index',
@@ -36,6 +39,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        $userService = new UserService();
+        $userService->can("create", User::class);
+
         $departments = Department::all();
         $profiles = Profile::all();
         return view(
@@ -52,6 +58,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $userService = new UserService();
+        $userService->can("store", User::class);
+
         $user = User::create([
             "name" => $request->name,
             "email" => $request->email,
@@ -72,6 +81,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $userService = new UserService();
+        $userService->can("show", User::class);
+
         return view(
             'users.show',
             [
@@ -85,6 +97,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $userService = new UserService();
+        $userService->can("edit", User::class);
+
         $departments = Department::all();
         $profiles = Profile::all();
         return view(
@@ -102,6 +117,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $userService = new UserService();
+        $userService->can("update", User::class);
+
         $user->update([
             'name' => $request->name,
         ]);
@@ -132,9 +150,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if (!Auth::user()->can('delete', $user)) {
-            abort(405);
-        }
+        $userService = new UserService();
+        $userService->can("delete", User::class);
 
         $user->delete();
         return redirect()->route('users.index');

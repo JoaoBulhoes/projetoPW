@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class UserService
@@ -20,5 +21,12 @@ class UserService
         }
 
         return false;
+    }
+
+    public function can(string $action, string $model): void
+    {
+        if (!Auth::user()->can($action, $model)) {
+            abort(405);
+        }
     }
 }
