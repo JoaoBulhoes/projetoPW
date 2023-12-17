@@ -18,8 +18,8 @@ class PermissionFactory extends Factory
     {
         return [
             'created_at' => fake()->dateTime(),
-            'read' => fake()->boolean(50),
-            'modify' => fake()->boolean(50),
+            'view' => fake()->boolean(50),
+            'update' => fake()->boolean(50),
             'delete' => fake()->boolean(50),
             'download' => fake()->boolean(50),
             'document_id' => fake()->numberBetween(1, 15),

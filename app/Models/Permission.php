@@ -10,8 +10,8 @@ class Permission extends Model
     use HasFactory;
 
     protected $fillable = [
-        'read',
-        'modify',
+        'view',
+        'update',
         'delete',
         'download',
         'document_id',
