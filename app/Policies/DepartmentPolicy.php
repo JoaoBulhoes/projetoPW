@@ -28,8 +28,8 @@ class DepartmentPolicy
      */
     public function create(User $user): bool
     {
-        //
-        return false;
+        $userService = new UserService();
+        return $userService->is_admin($user);
     }
 
     /**
