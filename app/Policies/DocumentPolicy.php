@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Document;
 use App\Models\User;
+use App\Services\DocumentService;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,9 +13,9 @@ class DocumentPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function index(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,18 +23,8 @@ class DocumentPolicy
      */
     public function view(User $user, Document $document): bool
     {
-        $queryResult = User::query()
-            ->join("permissions", "users.id", "=", "permissions.user_id")
-            ->join("documents", "permissions.document_id", "=", "documents.id")
-            ->where("permissions.user_id", "=", $user->id)
-            ->where("permissions.document_id", "=", $document->id)
-            ->select("permissions.read")->get();
-
-        if ($queryResult->count() > 0) {
-            return $queryResult[0]->read == "1";
-        }
-
-        return false;
+        $documentService = new DocumentService();
+        return $documentService->canAccess($document, "view");
     }
 
     /**
@@ -42,7 +33,7 @@ class DocumentPolicy
     public function create(User $user): bool
     {
         //
-        return false;
+        return true;
     }
 
     /**
@@ -50,18 +41,8 @@ class DocumentPolicy
      */
     public function update(User $user, Document $document): bool
     {
-        $queryResult = User::query()
-            ->join("permissions", "users.id", "=", "permissions.user_id")
-            ->join("documents", "permissions.document_id", "=", "documents.id")
-            ->where("permissions.user_id", "=", $user->id)
-            ->where("permissions.document_id", "=", $document->id)
-            ->select("permissions.modify")->get();
-
-        if ($queryResult->count() > 0) {
-            return $queryResult[0]->modify == "1";
-        }
-
-        return false;
+        $documentService = new DocumentService();
+        return $documentService->canAccess($document, "update");
     }
 
     /**
@@ -69,34 +50,14 @@ class DocumentPolicy
      */
     public function delete(User $user, Document $document): bool
     {
-        $queryResult = User::query()
-            ->join("permissions", "users.id", "=", "permissions.user_id")
-            ->join("documents", "permissions.document_id", "=", "documents.id")
-            ->where("permissions.user_id", "=", $user->id)
-            ->where("permissions.document_id", "=", $document->id)
-            ->select("permissions.delete")->get();
-
-        if ($queryResult->count() > 0) {
-            return $queryResult[0]->delete == "1";
-        }
-
-        return false;
+        $documentService = new DocumentService();
+        return $documentService->canAccess($document, "delete");
     }
 
     public function download(User $user, Document $document): bool
     {
-        $queryResult = User::query()
-            ->join("permissions", "users.id", "=", "permissions.user_id")
-            ->join("documents", "permissions.document_id", "=", "documents.id")
-            ->where("permissions.user_id", "=", $user->id)
-            ->where("permissions.document_id", "=", $document->id)
-            ->select("permissions.download")->get();
-
-        if ($queryResult->count() > 0) {
-            return $queryResult[0]->download == "1";
-        }
-
-        return false;
+        $documentService = new DocumentService();
+        return $documentService->canAccess($document, "download");
     }
 
     /**

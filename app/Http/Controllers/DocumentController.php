@@ -6,6 +6,7 @@ use App\Models\Document;
 use App\Models\MetadataType;
 use App\Models\Permission;
 use App\Models\User;
+use App\Services\DocumentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,8 +54,8 @@ class DocumentController extends Controller
         ]);
 
         $authorPermission = Permission::create([
-            'read' => 1,
-            'modify' => 1,
+            'view' => 1,
+            'update' => 1,
             'delete' => 1,
             'download' => 1,
             'document_id' => $document->id,
@@ -72,6 +73,9 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
+        $documentService = new DocumentService();
+        $documentService->can($document, "view");
+
         return view(
             'documents.show',
             [
@@ -85,6 +89,9 @@ class DocumentController extends Controller
      */
     public function edit(Document $document)
     {
+        $documentService = new DocumentService();
+        $documentService->can($document, "update");
+
         $metadataTypes = MetadataType::all();
         return view(
             'documents.edit',
@@ -100,6 +107,9 @@ class DocumentController extends Controller
      */
     public function update(Request $request, Document $document)
     {
+        $documentService = new DocumentService();
+        $documentService->can($document, "update");
+
         $document->update([
             'name' => $request->name,
         ]);
@@ -124,9 +134,8 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
-        if (!Auth::user()->can('delete', $document)) {
-            abort(405);
-        }
+        $documentService = new DocumentService();
+        $documentService->can($document, "delete");
 
         $document->delete();
         return redirect()->route('documents.index');
