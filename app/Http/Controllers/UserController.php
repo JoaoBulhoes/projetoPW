@@ -59,7 +59,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $userService = new UserService();
-        $userService->can("store", User::class);
+        $userService->can("create", User::class);
 
         $user = User::create([
             "name" => $request->name,
@@ -82,7 +82,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $userService = new UserService();
-        $userService->can("show", User::class);
+        $userService->can("view", User::class);
 
         return view(
             'users.show',
@@ -98,7 +98,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $userService = new UserService();
-        $userService->can("edit", User::class);
+        $userService->can("update", User::class);
 
         $departments = Department::all();
         $profiles = Profile::all();
