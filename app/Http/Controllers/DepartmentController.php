@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
-use App\Models\Document;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -56,31 +54,31 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      */
-//    public function show(Department $department)
-//    {
-//        return view(
-//            'departments.show',
-//            [
-//                'department' => $department
-//            ]
-//        );
-//    }
+    public function show(Department $department)
+    {
+        return view(
+            'departments.show',
+            [
+                'department' => $department
+            ]
+        );
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
-//    public function edit(string $id)
-//    {
+    public function edit(string $id)
+    {
         //
-//    }
+    }
 
     /**
      * Update the specified resource in storage.
      */
-//    public function update(Request $request, string $id)
-//    {
+    public function update(Request $request, string $id)
+    {
         //
-//    }
+    }
 
     /**
      * Remove the specified resource from storage.
