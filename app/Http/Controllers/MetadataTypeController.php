@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\MetadataType;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class MetadataTypeController extends Controller
 {
@@ -27,6 +27,9 @@ class MetadataTypeController extends Controller
      */
     public function create()
     {
+        $userService = new UserService();
+        $userService->can("create", MetadataType::class);
+
         return view('metadataTypes.create');
     }
 
@@ -35,6 +38,9 @@ class MetadataTypeController extends Controller
      */
     public function store(Request $request)
     {
+        $userService = new UserService();
+        $userService->can("create", MetadataType::class);
+
         $metadataType = new MetadataType($request->toArray());
 
         $metadataType->save();
@@ -71,9 +77,8 @@ class MetadataTypeController extends Controller
      */
     public function destroy(MetadataType $metadataType)
     {
-        if (!Auth::user()->can('delete', $metadataType)) {
-            abort(405);
-        }
+        $userService = new UserService();
+        $userService->can("delete", MetadataType::class);
 
         $metadataType->delete();
         return redirect()->route('metadataTypes.index');
