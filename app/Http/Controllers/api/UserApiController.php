@@ -31,7 +31,17 @@ class UserApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!auth()->user()->tokenCan('users:create')) {
+            return response()->json(['message' => 'FORBIDDEN'], 403);
+        }
+
+        if (!$request->has('name') || !$request->has('email') || !$request->has('password')) {
+            return response()->json(['message' => 'Informaçao insuficiente'], 400);
+        }
+
+        $userService = new UserService();
+        $user = $userService->createUser($request->name, $request->email, $request->password);
+        return new UserResource($user);
     }
 
     /**
