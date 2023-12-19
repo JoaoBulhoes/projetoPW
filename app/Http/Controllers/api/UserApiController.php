@@ -70,12 +70,17 @@ class UserApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if (!$request->has('name') || !$request->has('email')) {
+            return response()->json(['message' => 'Informaçao insuficiente'], 400);
+        }
 
         try {
             $user = User::findOrFail($id);
 
             $userService = new UserService();
             $userService->updateUser($user, $request->name, $request->email);
+
+            return response()->json(['message' => 'Atualizado com sucesso'], 200);
         } catch (\Exception $e) {
             if ($e instanceof ModelNotFoundException) {
                 return response()->json(['message' => 'Não encontrado'], 404);
