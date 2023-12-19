@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Dto\UserDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
@@ -59,7 +60,19 @@ class UserApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return response()->json($request->toArray());
+        try {
+            $userDTO = new UserDTO($request->name, $request->email);
+
+            $user = User::findOrFail($id);
+
+            $user->update($userDTO->toArray());
+        } catch (\Exception $e) {
+            if ($e instanceof ModelNotFoundException) {
+                return response()->json(['message' => 'Não encontrado'], 404);
+            }
+
+            return response()->json(['message' => 'Ocorreu um erro de comunicação'], 503);
+        }
     }
 
     /**
