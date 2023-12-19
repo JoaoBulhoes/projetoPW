@@ -26,7 +26,7 @@ class UserService
     public function can(string $action, string $model): void
     {
         if (!Auth::user()->can($action, $model)) {
-            abort(405);
+            abort(403);
         }
     }
 }
