@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -21,6 +22,24 @@ class UserService
         }
 
         return false;
+    }
+
+    public function updateUser(User $user, string $name, string $email)
+    {
+        $user->update([
+            "name" => $name,
+            "email" => $email,
+        ]);
+    }
+
+    public function createUser(string $name, string $email, string $password): User
+    {
+        return User::create([
+            "name" => $name,
+            "email" => $email,
+            "password" => Hash::make($password),
+        ]);
+
     }
 
     public function can(string $action, string $model): void

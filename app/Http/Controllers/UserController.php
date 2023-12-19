@@ -62,11 +62,7 @@ class UserController extends Controller
         $userService = new UserService();
         $userService->can("create", User::class);
 
-        $user = User::create([
-            "name" => $request->name,
-            "email" => $request->email,
-            "password" => Hash::make($request->password),
-        ]);
+        $user = $userService->createUser($request->name, $request->email, $request->password);
 
         $user->departments()->attach($request->department_id);
 
@@ -121,8 +117,7 @@ class UserController extends Controller
         $userService = new UserService();
         $userService->can("update", User::class);
 
-        $userDTO = new UserDTO($request->name, $request->email);
-        $user->update($userDTO->toArray());
+        $userService->updateUser($user, $request->name, $request->email);
 
         if (!$request->department_id || !$request->profile_id) {
             abort(404);

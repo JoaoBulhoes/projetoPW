@@ -60,12 +60,12 @@ class UserApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            $userDTO = new UserDTO($request->name, $request->email);
 
+        try {
             $user = User::findOrFail($id);
 
-            $user->update($userDTO->toArray());
+            $userService = new UserService();
+            $userService->updateUser($user, $request->name, $request->email);
         } catch (\Exception $e) {
             if ($e instanceof ModelNotFoundException) {
                 return response()->json(['message' => 'Não encontrado'], 404);
