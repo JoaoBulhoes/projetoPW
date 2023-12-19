@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\UserDTO;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Department;
 use App\Models\Profile;
@@ -120,9 +121,8 @@ class UserController extends Controller
         $userService = new UserService();
         $userService->can("update", User::class);
 
-        $user->update([
-            'name' => $request->name,
-        ]);
+        $userDTO = new UserDTO($request->name, $request->email);
+        $user->update($userDTO->toArray());
 
         if (!$request->department_id || !$request->profile_id) {
             abort(404);

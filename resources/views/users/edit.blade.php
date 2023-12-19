@@ -21,6 +21,12 @@
                     </fildset>
 
                     <fildset>
+                        Nome: <input type="text" name="email" id="" class="form-control"
+                                     value="{{ old('email', $user->email) }}"><br>
+                        @error('nome') <span class="text-danger">{{ $message }}</span><br>@enderror
+                    </fildset>
+
+                    <fildset>
                         Departamentos:
                         <br>
                         <label for="add_department">adicionar departamento? (selecionar para sim, caso contrário, remove
