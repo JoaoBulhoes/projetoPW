@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MetadataType;
+use App\Services\MetadataTypeService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -41,7 +42,8 @@ class MetadataTypeController extends Controller
         $userService = new UserService();
         $userService->can("create", MetadataType::class);
 
-        $metadataType = new MetadataType($request->toArray());
+        $metadataTypeService = new MetadataTypeService();
+        $metadataType = $metadataTypeService->createMetadataType($request->name);
 
         $metadataType->save();
 
