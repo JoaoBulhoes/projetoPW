@@ -102,6 +102,8 @@ class UserApiController extends Controller
         try {
             $user = User::findOrFail($id);
             $user->delete();
+
+            return response()->json(['message' => 'Apagado com sucesso'], 200);
         } catch (\Exception $e) {
             if ($e instanceof ModelNotFoundException) {
                 return response()->json(['message' => 'Não encontrado'], 404);
@@ -109,7 +111,5 @@ class UserApiController extends Controller
 
             return response()->json(['message' => 'Ocorreu um erro de comunicação'], 503);
         }
-
-        return response()->json(['message' => 'Apagado com sucesso'], 200);
     }
 }
