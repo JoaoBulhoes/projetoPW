@@ -99,9 +99,7 @@ class DocumentController extends Controller
         $documentService = new DocumentService();
         $documentService->can($document, "update");
 
-        $document->update([
-            'name' => $request->name,
-        ]);
+        $documentService->updateDocument($document, $request->name);
 
         if (!$request->metadataType_id || !$request->value) {
             abort(404);
