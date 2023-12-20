@@ -16,7 +16,7 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th class="text-end">Acções</th>
+                        <th class="text-end">Ações</th>
                     </tr>
                 </thead>
 
@@ -37,7 +37,6 @@
                     @endforeach
                 </tbody>
             </table>
-
                 {{ $departments->links() }}
         </div>
     </div>
