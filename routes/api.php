@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('users', \App\Http\Controllers\api\UserApiController::class);
     Route::apiResource('documents', \App\Http\Controllers\api\DocumentApiController::class);
+    Route::apiResource('metadataTypes', \App\Http\Controllers\api\MetadataTypeApiController::class);
 });
