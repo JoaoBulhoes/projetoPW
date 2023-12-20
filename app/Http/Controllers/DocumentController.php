@@ -45,25 +45,14 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        $document = Document::create([
-            "path" => $request->name,
-        ]);
+        $documentService = new DocumentService();
+        $document = $documentService->createDocument($request->name);
 
         $document->metadataTypes()->attach($request->metadataType_id, [
             'value' => $request->metadataType_value,
         ]);
 
-        $authorPermission = Permission::create([
-            'view' => 1,
-            'update' => 1,
-            'delete' => 1,
-            'download' => 1,
-            'document_id' => $document->id,
-            'user_id' => Auth::user()->id,
-        ]);
-
-        $authorPermission->save();
-        $document->save();
+        $documentService->createauthorPermission($document);
 
         return redirect()->route('documents.index');
     }
