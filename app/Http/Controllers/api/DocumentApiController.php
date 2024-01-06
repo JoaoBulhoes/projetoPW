@@ -36,7 +36,7 @@ class DocumentApiController extends Controller
 
         $documentService = new DocumentService();
         $document = $documentService->createDocument($request->name);
-        $documentService->createauthorPermission($document);
+        $documentService->createAuthorPermission($document);
 
         return new DocumentResource($document);
     }

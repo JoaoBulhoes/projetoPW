@@ -14,7 +14,7 @@ class DocumentService
     {
         if (!$this->canAccess($document, $action)) {
             abort(405);
-        };
+        }
     }
 
     public function canAccess(Document $document, string $action): bool
@@ -43,7 +43,7 @@ class DocumentService
         return $document;
     }
 
-    public function createauthorPermission($document)
+    public function createAuthorPermission($document)
     {
         $authorPermission = Permission::create([
             'view' => 1,

@@ -52,7 +52,7 @@ class DocumentController extends Controller
             'value' => $request->metadataType_value,
         ]);
 
-        $documentService->createauthorPermission($document);
+        $documentService->createAuthorPermission($document);
 
         return redirect()->route('documents.index');
     }
