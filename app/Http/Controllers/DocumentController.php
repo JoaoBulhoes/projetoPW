@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\MetadataType;
-use App\Models\Permission;
-use App\Models\User;
 use App\Services\DocumentService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
 {

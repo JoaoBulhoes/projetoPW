@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Document;
 use App\Models\Permission;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class DocumentService

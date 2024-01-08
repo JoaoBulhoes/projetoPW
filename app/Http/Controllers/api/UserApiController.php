@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Dto\UserDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;

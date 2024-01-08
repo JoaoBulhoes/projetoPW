@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\UserDTO;
-use App\Http\Requests\UpdateUserRequest;
 use App\Models\Department;
 use App\Models\Profile;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {

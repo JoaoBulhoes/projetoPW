@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\MetadataType;
-use Illuminate\Support\Facades\Auth;
 
 class MetadataTypeService
 {
