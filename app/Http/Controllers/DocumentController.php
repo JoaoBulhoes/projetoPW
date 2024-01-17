@@ -49,6 +49,8 @@ class DocumentController extends Controller
         $filePath = $file->storeAs('files', $request->name . '.' . $fileExtension);
         $document = $documentService->createDocument($filePath);
 
+        $documentService->setMainAtributes($document, $request->name, $fileExtension);
+
         $document->metadataTypes()->attach($request->metadataType_id, [
             'value' => $request->metadataType_value,
         ]);

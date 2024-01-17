@@ -40,6 +40,8 @@ class DatabaseSeeder extends Seeder
             Department::factory(30)->create();
             Profile::factory(30)->create();
             FileLink::factory(30)->create();
+
+            $this->call(DefaultMetadataTypeSeeder::class);
             MetadataType::factory(30)->create();
         }
     }

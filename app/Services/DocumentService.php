@@ -42,6 +42,18 @@ class DocumentService
         return $document;
     }
 
+    public function setMainAtributes(Document $document, string $name, string $extension){
+
+        $document->metadataTypes()->attach(1, [
+            'value' => $name,
+        ]);
+
+        $document->metadataTypes()->attach(2, [
+            'value' => $extension,
+        ]);
+
+    }
+
     public function createAuthorPermission($document)
     {
         $authorPermission = Permission::create([
