@@ -42,8 +42,12 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
+        $file = $request->file('file');
+
         $documentService = new DocumentService();
-        $document = $documentService->createDocument($request->name);
+        $fileExtension = $file->getClientOriginalExtension();
+        $filePath = $file->storeAs('files', $request->name . '.' . $fileExtension);
+        $document = $documentService->createDocument($filePath);
 
         $document->metadataTypes()->attach($request->metadataType_id, [
             'value' => $request->metadataType_value,
