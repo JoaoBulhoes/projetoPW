@@ -46,7 +46,7 @@ class DocumentController extends Controller
 
         $documentService = new DocumentService();
         $fileExtension = $file->getClientOriginalExtension();
-        $filePath = $file->storeAs('files', $request->name . '.' . $fileExtension);
+        $filePath = $file->storeAs('uploaded_files', $request->name . '.' . $fileExtension);
         $document = $documentService->createDocument($filePath);
 
         $documentService->setMainAtributes($document, $request->name, $fileExtension);
