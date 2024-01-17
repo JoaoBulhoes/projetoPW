@@ -42,7 +42,8 @@ class DocumentService
         return $document;
     }
 
-    public function setMainAtributes(Document $document, string $name, string $extension){
+    public function setMainAtributes(Document $document, string $name, string $extension)
+    {
 
         $document->metadataTypes()->attach(1, [
             'value' => $name,
@@ -52,6 +53,17 @@ class DocumentService
             'value' => $extension,
         ]);
 
+    }
+
+    public function getDocumentMetadataTypes(Document $document)
+    {
+        $queryResult = Document::query()
+            ->join("document_metadata_type", "document_metadata_type.document_id", "=", "documents.id")
+            ->join("metadata_types", "document_metadata_type.metadata_type_id", "=", "metadata_types.id")
+            ->where("documents.id", "=", $document->id)
+            ->select("document_metadata_type.value", "metadata_types.name")->get();
+
+        return $queryResult;
     }
 
     public function createAuthorPermission($document)

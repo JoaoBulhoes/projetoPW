@@ -67,11 +67,13 @@ class DocumentController extends Controller
     {
         $documentService = new DocumentService();
         $documentService->can($document, "view");
+        $metadataTypeInfo = $documentService->getDocumentMetadataTypes($document);
 
         return view(
             'documents.show',
             [
-                'document' => $document
+                'document' => $document,
+                'metadataTypeInfo' => $metadataTypeInfo
             ]
         );
     }

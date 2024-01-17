@@ -16,17 +16,23 @@
                         <tr>
                             <th>Path</th>
                             <th>Metadata Types</th>
+                            <th>Values</th>
                         </tr>
                         </thead>
 
                         <tbody>
                         <tr>
                             <td>{{ $document->path }}</td>
-                            <td>
-                                @foreach($document->metadataTypes as $mdataType)
-                                    <p>{{ $mdataType->name }}</p>
-                                @endforeach
-                            </td>
+                                <td>
+                                    @for($i = 0; $i < $metadataTypeInfo->count(); $i++)
+                                        <p>{{ $metadataTypeInfo[$i]["name"] }}</p>
+                                    @endfor
+                                </td>
+                                <td>
+                                    @for($i = 0; $i < $metadataTypeInfo->count(); $i++)
+                                        <p>{{ $metadataTypeInfo[$i]["value"] }}</p>
+                                    @endfor
+                                </td>
                         </tr>
                         </tbody>
                     </table>
