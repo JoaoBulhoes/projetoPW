@@ -6,6 +6,7 @@ use App\Models\Document;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use PSpell\Dictionary;
 
 class DocumentService
 {
@@ -78,6 +79,43 @@ class DocumentService
         ]);
 
         $authorPermission->save();
+    }
+
+    public function addUserPermission(Document $document, string $userId, string $permissionType, string $value="0")
+    {
+        $permission = Permission::where("document_id", "=", $document->id)
+            ->where("user_id", "=", $userId)
+            ->firstOr(function ($document, $userId) {
+                Permission::create([
+                    "view" => 0,
+                    "update" => 0,
+                    "download" => 0,
+                    "delete" => 0,
+                    "document_id" => $document->id,
+                    "user_id" => $userId,
+                ]);
+            });
+
+        if ($permissionType == 5) {
+            $permission->update([
+                "view" => $value,
+                "update" => $value,
+                "download" => $value,
+                "delete" => $value,
+            ]);
+            return;
+        }
+
+        $perm = array(
+            1 => "view",
+            2 => "update",
+            3 => "download",
+            4 => "delete",
+        );
+
+        $permission->update([
+            $perm[$permissionType] => $value,
+        ]);
     }
 
 }

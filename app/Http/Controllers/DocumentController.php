@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\MetadataType;
+use App\Models\User;
 use App\Services\DocumentService;
 use Illuminate\Http\Request;
 
@@ -83,11 +84,13 @@ class DocumentController extends Controller
         $documentService->can($document, "update");
 
         $metadataTypes = MetadataType::all();
+        $users = User::all();
         return view(
             'documents.edit',
             [
                 'document' => $document,
-                'metadataTypes' => $metadataTypes
+                'metadataTypes' => $metadataTypes,
+                'users' => $users
             ]
         );
     }
@@ -100,14 +103,21 @@ class DocumentController extends Controller
         $documentService = new DocumentService();
         $documentService->can($document, "update");
 
-        if (!$request->metadataType_id || !$request->value) {
+        if (!$request->metadataType_id) {
             abort(404);
         }
+
+        $addUserPerm = 0;
+        if ($request->addUserPermission) {
+            $addUserPerm = $request->addUserPermission;
+        }
+
+        $documentService->addUserPermission($document, $request->userId, $request->permissionType, $addUserPerm);
 
         $document->metadataTypes()->detach($request->metadataType_id);
 
         if ($request->add_metadataType && !$document->metadataTypes->contains($request->metadataType_id)) {
-            $document->metadataTypes()->attach($request->metadataType_id, ['value' => $request->value]);
+            $document->metadataTypes()->attach($request->metadataType_id, ['value' => $request->mdataValue]);
         }
 
         $document->save();
