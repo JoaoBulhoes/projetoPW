@@ -21,12 +21,14 @@
                         <input type="checkbox" id="add_metadataType" name="add_metadataType" value="1">
                         <select name="metadataType_id" id="" class="form-control">
                             @foreach($metadataTypes as $metadataType)
-                                @if($document->metadataTypes()->count() > 0 && $document->metadataTypes->contains($metadataType->id))
-                                    <option value="{{ $metadataType->id }}" selected>{{ $metadataType->name }}(atual)
-                                    </option>
-                                @else
-                                    <option value="{{ $metadataType->id }}">{{ $metadataType->name }}</option>
-                                @endif
+                               @if($metadataType->id > env("DEFAULT_NUMBER_METADATATYPES"))
+                                    @if($document->metadataTypes()->count() > 0 && $document->metadataTypes->contains($metadataType->id))
+                                        <option value="{{ $metadataType->id }}" selected>{{ $metadataType->name }}(atual)
+                                        </option>
+                                    @else
+                                        <option value="{{ $metadataType->id }}">{{ $metadataType->name }}</option>
+                                    @endif
+                               @endif
                             @endforeach
                         </select>
                         <br>
