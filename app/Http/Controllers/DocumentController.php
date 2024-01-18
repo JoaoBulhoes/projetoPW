@@ -51,10 +51,6 @@ class DocumentController extends Controller
 
         $documentService->setMainAtributes($document, $request->name, $fileExtension);
 
-        $document->metadataTypes()->attach($request->metadataType_id, [
-            'value' => $request->metadataType_value,
-        ]);
-
         $documentService->createAuthorPermission($document);
 
         return redirect()->route('documents.index');
