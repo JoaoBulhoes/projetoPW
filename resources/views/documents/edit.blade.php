@@ -14,12 +14,6 @@
                     @csrf
 
                     <fildset>
-                        Nome: <input type="text" name="name" id="" class="form-control"
-                                     value="{{ old('name', $document->path) }}"><br>
-                        @error('name') <span class="text-danger">{{ $message }}</span><br>@enderror
-                    </fildset>
-
-                    <fildset>
                         MetadataTypes:
                         <br>
                         <label for="add_metadataType">adicionar metadataType? (selecionar para sim, caso contrário,

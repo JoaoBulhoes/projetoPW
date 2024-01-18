@@ -80,10 +80,4 @@ class DocumentService
         $authorPermission->save();
     }
 
-    public function updateDocument(Document $document, string $name)
-    {
-        $document->update([
-            "path" => $name,
-        ]);
-    }
 }
