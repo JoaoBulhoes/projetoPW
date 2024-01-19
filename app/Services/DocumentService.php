@@ -33,7 +33,8 @@ class DocumentService
 
         $hasDepartmentPermission = false;
         for ($i = 0; $i < $queryResult2->count(); $i++) {
-            if ($queryResult2[$i][$action] == "1"){
+            $department = $queryResult2[$i];
+            if ($department[$action] == "1" && Auth::user()->departments->contains($department["department_id"])){
                 $hasDepartmentPermission = true;
                 break;
             }
