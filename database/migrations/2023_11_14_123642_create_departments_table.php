@@ -24,8 +24,8 @@ return new class extends Migration {
 
         Schema::create('department_document', function (Blueprint $table) {
             $table->timestamps();
-            $table->boolean('read');
-            $table->boolean('modify');
+            $table->boolean('view');
+            $table->boolean('update');
             $table->boolean('delete');
             $table->boolean('download');
             $table->foreignId('document_id')->constrained();

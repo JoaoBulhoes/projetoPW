@@ -23,7 +23,7 @@
 
                     <tbody>
                     @foreach($users as $user)
-                        @if($user->id !== \Illuminate\Support\Facades\Auth::id())
+{{--                        @if($user->id !== \Illuminate\Support\Facades\Auth::id())--}}
                             <tr>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
@@ -45,7 +45,7 @@
                                         </form>
                                 @endcan
                             </tr>
-                        @endif
+{{--                        @endif--}}
                     @endforeach
                     </tbody>
                 </table>

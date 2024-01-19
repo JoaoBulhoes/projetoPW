@@ -6,7 +6,6 @@ use App\Models\Document;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use PSpell\Dictionary;
 
 class DocumentService
 {
@@ -26,8 +25,26 @@ class DocumentService
             ->where("permissions.document_id", "=", $document->id)
             ->select("permissions.*")->get();
 
+        $queryResult2 = Document::query()
+            ->join("department_document", "documents.id", "=", "department_document.document_id")
+            ->join("departments", "department_document.document_id", "=", "departments.id")
+            ->where("department_document.document_id", "=", $document->id)
+            ->select("department_document.*")->get();
+
+        $hasDepartmentPermission = false;
+        for ($i = 0; $i < $queryResult2->count(); $i++) {
+            if ($queryResult2[$i][$action] == "1"){
+                $hasDepartmentPermission = true;
+                break;
+            }
+        }
+
         if ($queryResult->count() > 0) {
-            return $queryResult[0][$action] == "1";
+            return $queryResult[0][$action] == "1" || $hasDepartmentPermission;
+        }
+
+        if ($queryResult2->count() > 0) {
+            return $hasDepartmentPermission;
         }
 
         return false;
