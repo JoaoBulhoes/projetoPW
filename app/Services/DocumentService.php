@@ -18,6 +18,11 @@ class DocumentService
 
     public function canAccess(Document $document, string $action): bool
     {
+        return $this->userHasAccess($document, $action) || $this->departmentHasAccess($document, $action);
+    }
+
+    public function userHasAccess(Document $document, string $action): bool
+    {
         $queryResult = User::query()
             ->join("permissions", "users.id", "=", "permissions.user_id")
             ->join("documents", "permissions.document_id", "=", "documents.id")
@@ -25,26 +30,31 @@ class DocumentService
             ->where("permissions.document_id", "=", $document->id)
             ->select("permissions.*")->get();
 
-        $queryResult2 = Document::query()
+        if ($queryResult->count() > 0) {
+            return $queryResult[0][$action] == "1";
+        }
+
+        return false;
+    }
+
+    public function departmentHasAccess(Document $document, string $action): bool
+    {
+        $queryResult = Document::query()
             ->join("department_document", "documents.id", "=", "department_document.document_id")
             ->join("departments", "department_document.document_id", "=", "departments.id")
             ->where("department_document.document_id", "=", $document->id)
             ->select("department_document.*")->get();
 
         $hasDepartmentPermission = false;
-        for ($i = 0; $i < $queryResult2->count(); $i++) {
-            $department = $queryResult2[$i];
-            if ($department[$action] == "1" && Auth::user()->departments->contains($department["department_id"])){
+        for ($i = 0; $i < $queryResult->count(); $i++) {
+            $department = $queryResult[$i];
+            if ($department[$action] == "1" && Auth::user()->departments->contains($department["department_id"])) {
                 $hasDepartmentPermission = true;
                 break;
             }
         }
 
         if ($queryResult->count() > 0) {
-            return $queryResult[0][$action] == "1" || $hasDepartmentPermission;
-        }
-
-        if ($queryResult2->count() > 0) {
             return $hasDepartmentPermission;
         }
 
@@ -99,7 +109,7 @@ class DocumentService
         $authorPermission->save();
     }
 
-    public function addUserPermission(Document $document, string $userId, string $permissionType, string $value="0")
+    public function addUserPermission(Document $document, string $userId, string $permissionType, string $value)
     {
         $permission = Permission::where("document_id", "=", $document->id)
             ->where("user_id", "=", $userId)
