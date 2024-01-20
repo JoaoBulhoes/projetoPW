@@ -34,8 +34,17 @@ class DocumentApiController extends Controller
             return response()->json(['message' => 'FORBIDDEN'], 403);
         }
 
+        if (!$request->has('name') || !$request->has('fileExtension')) {
+            return response()->json(['message' => 'Informaçao insuficiente'], 400);
+        }
+
         $documentService = new DocumentService();
-        $document = $documentService->createDocument($request->name);
+
+        $filePath = 'uploaded_files' . $request->name . '.' . $request->fileExtension;
+        $document = $documentService->createDocument($filePath);
+
+        $documentService->setMainAtributes($document, $request->name, $request->fileExtension);
+
         $documentService->createAuthorPermission($document);
 
         return new DocumentResource($document);
