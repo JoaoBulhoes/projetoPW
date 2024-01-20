@@ -23,6 +23,7 @@ return new class extends Migration {
         });
 
         Schema::create('department_document', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
             $table->boolean('view');
             $table->boolean('update');

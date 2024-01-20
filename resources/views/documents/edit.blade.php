@@ -14,7 +14,7 @@
                     @csrf
 
                     <fildset>
-                        User permissions:
+                        Permissões de User:
                         <br>
                         <label for="addUserPermission">adicionar permissão a um user? (selecionar para sim, caso
                             contrário,
@@ -30,7 +30,7 @@
                         <br>
 
                         Valor:
-                        <select name="permissionType" id="" class="form-control">
+                        <select name="userPermissionType" id="" class="form-control">
                             <option value="1">Ver</option>
                             <option value="2">Modificar</option>
                             <option value="3">Download</option>
@@ -40,6 +40,32 @@
 
                         <br>
                         @error('userId') <span class="text-danger">{{ $message }}</span><br>@enderror
+                    </fildset>
+
+                    <fildset>
+                        Permissões de departamento:
+                        <br>
+                        <label for="addDepartmentPermission">adicionar permissão a um departamento? (selecionar para
+                            sim, caso contrário, remove a permissão)</label>
+                        <input type="checkbox" id="addDepartmentPermission" name="addDepartmentPermission" value="1">
+                        <select name="departmentId" id="" class="form-control">
+                            @foreach($departments as $department)
+                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                        <br>
+
+                        Valor:
+                        <select name="departmentPermissionType" id="" class="form-control">
+                            <option value="1">Ver</option>
+                            <option value="2">Modificar</option>
+                            <option value="3">Download</option>
+                            <option value="4">Apagar</option>
+                            <option value="5">Todas as permissões</option>
+                        </select>
+
+                        <br>
+                        @error('departmentId') <span class="text-danger">{{ $message }}</span><br>@enderror
                     </fildset>
 
                     <fildset>

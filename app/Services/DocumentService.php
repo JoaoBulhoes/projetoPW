@@ -5,10 +5,19 @@ namespace App\Services;
 use App\Models\Document;
 use App\Models\Permission;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class DocumentService
 {
+
+    private $perm = array(
+        1 => "view",
+        2 => "update",
+        3 => "download",
+        4 => "delete",
+    );
+
     public function can(Document $document, string $action): void
     {
         if (!$this->canAccess($document, $action)) {
@@ -134,16 +143,28 @@ class DocumentService
             return;
         }
 
-        $perm = array(
-            1 => "view",
-            2 => "update",
-            3 => "download",
-            4 => "delete",
-        );
-
         $permission->update([
-            $perm[$permissionType] => $value,
+            $this->perm[$permissionType] => $value,
         ]);
     }
 
+    public function addDepartmentPermission(Document $document, string $departmentId, string $permissionType, string $value)
+    {
+        $document->departments()->detach($departmentId);
+
+        if ($permissionType == 5){
+            $document->departments()->attach($departmentId, [
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+                "view" => $value,
+                "update" => $value,
+                "download" => $value,
+                "delete" => $value,
+            ]);
+        } else {
+            $document->departments()->attach($departmentId, [
+                $this->perm[$permissionType] => $value
+            ]);
+        }
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Document;
 use App\Models\MetadataType;
 use App\Models\User;
@@ -85,12 +86,15 @@ class DocumentController extends Controller
 
         $metadataTypes = MetadataType::all();
         $users = User::all();
+        $departments = Department::all();
+
         return view(
             'documents.edit',
             [
                 'document' => $document,
                 'metadataTypes' => $metadataTypes,
-                'users' => $users
+                'users' => $users,
+                'departments' => $departments
             ]
         );
     }
@@ -112,7 +116,14 @@ class DocumentController extends Controller
             $addUserPerm = $request->addUserPermission;
         }
 
-        $documentService->addUserPermission($document, $request->userId, $request->permissionType, $addUserPerm);
+        $addDepartmentPerm = 0;
+        if ($request->addDepartmentPermission) {
+            $addDepartmentPerm = $request->addDepartmentPermission;
+        }
+
+        $documentService->addUserPermission($document, $request->userId, $request->userPermissionType, $addUserPerm);
+
+        $documentService->addDepartmentPermission($document, $request->departmentId, $request->departmentPermissionType, $addDepartmentPerm);
 
         $document->metadataTypes()->detach($request->metadataType_id);
 
