@@ -50,7 +50,7 @@ class DocumentService
     {
         $queryResult = Document::query()
             ->join("department_document", "documents.id", "=", "department_document.document_id")
-            ->join("departments", "department_document.document_id", "=", "departments.id")
+            ->join("departments", "department_document.department_id", "=", "departments.id")
             ->where("department_document.document_id", "=", $document->id)
             ->select("department_document.*")->get();
 
@@ -118,11 +118,11 @@ class DocumentService
         $authorPermission->save();
     }
 
-    public function addUserPermission(Document $document, string $userId, string $permissionType, string $value)
+    public function addUserPermission(Document $document, string $userId, string $permissionType, string $value="0")
     {
         $permission = Permission::where("document_id", "=", $document->id)
             ->where("user_id", "=", $userId)
-            ->firstOr(function ($document, $userId) {
+            ->firstOr(function () use ($document, $userId) {
                 Permission::create([
                     "view" => 0,
                     "update" => 0,
@@ -154,8 +154,6 @@ class DocumentService
 
         if ($permissionType == 5){
             $document->departments()->attach($departmentId, [
-                "created_at" => Carbon::now(),
-                "updated_at" => Carbon::now(),
                 "view" => $value,
                 "update" => $value,
                 "download" => $value,
@@ -163,6 +161,10 @@ class DocumentService
             ]);
         } else {
             $document->departments()->attach($departmentId, [
+                "view" => 0,
+                "update" => 0,
+                "download" => 0,
+                "delete" => 0,
                 $this->perm[$permissionType] => $value
             ]);
         }
