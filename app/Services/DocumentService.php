@@ -70,10 +70,10 @@ class DocumentService
         return false;
     }
 
-    public function createDocument(string $name): Document
+    public function createDocument(string $path): Document
     {
         $document = Document::create([
-            "path" => $name,
+            "path" => $path,
         ]);
 
         $document->save();

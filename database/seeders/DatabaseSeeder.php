@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        if (App::environment() == 'local') {
+        if (App::environment() == 'local' || App::environment() == 'testing') {
             $this->call(AdminProfileSeeder::class);
             $this->call(DefaultUserSeeder::class);
 
