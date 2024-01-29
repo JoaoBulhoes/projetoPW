@@ -28,8 +28,8 @@ class DocumentApiTest extends TestCase
 
         $userService = new UserService();
 
-        $user = $userService->createUser("user1", "b@b", "123");
-        $token = $user->createToken('test_negativo', ['aaaa'])->plainTextToken;
+        $user = $userService->createUser("testUser", fake()->email(), "123");
+        $token = $user->createToken('can_index_negatico', ['aaaa'])->plainTextToken;
 
         $response = $this->get(
             '/api/documents',
@@ -42,9 +42,9 @@ class DocumentApiTest extends TestCase
 
         $this->refreshApplication();
 
-        $user = $userService->createUser("user2", "c@c", "123");
+        $user = $userService->createUser("testUser", fake()->email(), "123");
         $user->profiles()->attach(1);
-        $token = $user->createToken('test_positivo', ['documents:index'])->plainTextToken;
+        $token = $user->createToken('can_index_positivo', ['documents:index'])->plainTextToken;
 
         $response = $this->get(
             '/api/documents',
@@ -56,14 +56,14 @@ class DocumentApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_can_view_without_permission(): void
+    public function test_can_show_without_permission(): void
     {
         $this->refreshApplication();
         $userService = new UserService();
         $documentService = new DocumentService();
 
-        $user = $userService->createUser("user3", "b", "123");
-        $token = $user->createToken('tn', ['documents:show'])->plainTextToken;
+        $user = $userService->createUser("testUser", fake()->email(), "123");
+        $token = $user->createToken('can_view_negativo', ['documents:show'])->plainTextToken;
 
         $document = $documentService->createDocument("asdf");
 
@@ -77,7 +77,28 @@ class DocumentApiTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_can_view_with_permission(){
+    public function test_can_show_with_permission()
+    {
+        $this->refreshApplication();
+        $userService = new UserService();
+        $documentService = new DocumentService();
+
+        $user = $userService->createUser("testUser", fake()->email(), "123");
+        $token = $user->createToken('can_view_positivo', ['documents:show'])->plainTextToken;
+        Auth::login($user);
+
+        $document = $documentService->createDocument("path2");
+        $documentService->createAuthorPermission($document);
+
+        $response = $this->get(
+            '/api/documents/' . $document->id,
+            [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ]
+        );
+        $response->assertStatus(200);
+    }
         $this->refreshApplication();
         $userService = new UserService();
         $documentService = new DocumentService();
