@@ -90,7 +90,7 @@ class DocumentApiController extends Controller
                 return response()->json(['message' => 'FORBIDDEN'], 403);
             }
 
-            $documentService->updateDocument($document, $request->name);
+            $documentService->changeName($document, $request->name);
             $document->save();
 
             return new DocumentResource($document);

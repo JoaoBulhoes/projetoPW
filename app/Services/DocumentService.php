@@ -169,4 +169,12 @@ class DocumentService
             ]);
         }
     }
+
+    public function changeName(Document $document, String $name)
+    {
+        $document->metadataTypes()->detach(1);
+        $document->metadataTypes()->attach(1, [
+            'value' => $name,
+        ]);
+    }
 }
