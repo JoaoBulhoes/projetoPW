@@ -28,8 +28,7 @@ class MetadataTypeController extends Controller
      */
     public function create()
     {
-        $userService = new UserService();
-        $userService->can("create", MetadataType::class);
+        UserService::can("create", MetadataType::class);
 
         return view('metadataTypes.create');
     }
@@ -39,8 +38,7 @@ class MetadataTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $userService = new UserService();
-        $userService->can("create", MetadataType::class);
+        UserService::can("create", MetadataType::class);
 
         $metadataTypeService = new MetadataTypeService();
         $metadataType = $metadataTypeService->createMetadataType($request->name);
@@ -79,8 +77,7 @@ class MetadataTypeController extends Controller
      */
     public function destroy(MetadataType $metadataType)
     {
-        $userService = new UserService();
-        $userService->can("delete", MetadataType::class);
+        UserService::can("delete", MetadataType::class);
 
         $metadataType->delete();
         return redirect()->route('metadataTypes.index');

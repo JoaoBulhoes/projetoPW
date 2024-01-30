@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    public function is_admin(User $user): bool
+    public static function is_admin(User $user): bool
     {
         $queryResult = User::query()
             ->join("profile_user", "users.id", "=", "profile_user.user_id")
@@ -23,7 +23,7 @@ class UserService
         return false;
     }
 
-    public function updateUser(User $user, string $name, string $email)
+    public static function updateUser(User $user, string $name, string $email)
     {
         $user->update([
             "name" => $name,
@@ -31,7 +31,7 @@ class UserService
         ]);
     }
 
-    public function createUser(string $name, string $email, string $password): User
+    public static function createUser(string $name, string $email, string $password): User
     {
         return User::create([
             "name" => $name,
@@ -41,7 +41,7 @@ class UserService
 
     }
 
-    public function can(string $action, string $model): void
+    public static function can(string $action, string $model): void
     {
         if (!Auth::user()->can($action, $model)) {
             abort(403);

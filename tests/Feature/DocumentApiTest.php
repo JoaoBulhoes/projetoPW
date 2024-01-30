@@ -26,9 +26,8 @@ class DocumentApiTest extends TestCase
         );
         $response->assertStatus(401);
 
-        $userService = new UserService();
 
-        $user = $userService->createUser("testUser", fake()->email(), "123");
+        $user = UserService::createUser("testUser", fake()->email(), "123");
         $token = $user->createToken('can_index_negatico', ['aaaa'])->plainTextToken;
 
         $response = $this->get(
@@ -42,7 +41,7 @@ class DocumentApiTest extends TestCase
 
         $this->refreshApplication();
 
-        $user = $userService->createUser("testUser", fake()->email(), "123");
+        $user = UserService::createUser("testUser", fake()->email(), "123");
         $user->profiles()->attach(1);
         $token = $user->createToken('can_index_positivo', ['documents:index'])->plainTextToken;
 
@@ -59,13 +58,11 @@ class DocumentApiTest extends TestCase
     public function test_can_show_without_permission(): void
     {
         $this->refreshApplication();
-        $userService = new UserService();
-        $documentService = new DocumentService();
 
-        $user = $userService->createUser("testUser", fake()->email(), "123");
+        $user = UserService::createUser("testUser", fake()->email(), "123");
         $token = $user->createToken('can_view_negativo', ['documents:show'])->plainTextToken;
 
-        $document = $documentService->createDocument("asdf");
+        $document = DocumentService::createDocument("asdf");
 
         $response = $this->get(
             '/api/documents/' . $document->id,
@@ -80,15 +77,13 @@ class DocumentApiTest extends TestCase
     public function test_can_show_with_permission()
     {
         $this->refreshApplication();
-        $userService = new UserService();
-        $documentService = new DocumentService();
 
-        $user = $userService->createUser("testUser", fake()->email(), "123");
+        $user = UserService::createUser("testUser", fake()->email(), "123");
         $token = $user->createToken('can_view_positivo', ['documents:show'])->plainTextToken;
         Auth::login($user);
 
-        $document = $documentService->createDocument("path2");
-        $documentService->createAuthorPermission($document);
+        $document = DocumentService::createDocument("path2");
+        DocumentService::createAuthorPermission($document);
 
         $response = $this->get(
             '/api/documents/' . $document->id,

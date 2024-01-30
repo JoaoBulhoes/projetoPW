@@ -38,8 +38,7 @@ class UserApiController extends Controller
             return response()->json(['message' => 'Informaçao insuficiente'], 400);
         }
 
-        $userService = new UserService();
-        $user = $userService->createUser($request->name, $request->email, $request->password);
+        $user = UserService::createUser($request->name, $request->email, $request->password);
         return new UserResource($user);
     }
 
@@ -76,8 +75,7 @@ class UserApiController extends Controller
         try {
             $user = User::findOrFail($id);
 
-            $userService = new UserService();
-            $userService->updateUser($user, $request->name, $request->email);
+            UserService::updateUser($user, $request->name, $request->email);
 
             return response()->json(['message' => 'Atualizado com sucesso'], 200);
         } catch (\Exception $e) {

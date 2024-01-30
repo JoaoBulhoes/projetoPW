@@ -27,8 +27,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        $userService = new UserService();
-        $userService->can("create", Department::class);
+        UserService::can("create", Department::class);
 
         return view(
             'departments.create', []
@@ -40,8 +39,7 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $userService = new UserService();
-        $userService->can("create", Department::class);
+        UserService::can("create", Department::class);
 
         $department = Department::create([
             'name' => $request->name
@@ -85,8 +83,7 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        $userService = new UserService();
-        $userService->can("delete", Department::class);
+        UserService::can("delete", Department::class);
 
         $department->delete();
         return redirect()->route('departments.index');

@@ -17,13 +17,11 @@ class MetadataTypePolicy
 
     public function create(User $user): bool
     {
-        $userService = new UserService();
-        return $userService->is_admin($user);
+        return UserService::is_admin($user);
     }
 
     public function delete(User $user): bool
     {
-        $userService = new UserService();
-        return $userService->is_admin($user);
+        return UserService::is_admin($user);
     }
 }

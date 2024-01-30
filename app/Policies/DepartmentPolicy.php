@@ -28,8 +28,7 @@ class DepartmentPolicy
      */
     public function create(User $user): bool
     {
-        $userService = new UserService();
-        return $userService->is_admin($user);
+        return UserService::is_admin($user);
     }
 
     /**
@@ -45,8 +44,7 @@ class DepartmentPolicy
      */
     public function delete(User $user): bool
     {
-        $userService = new UserService();
-        return $userService->is_admin($user);
+        return UserService::is_admin($user);
     }
 
     /**

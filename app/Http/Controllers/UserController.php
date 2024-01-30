@@ -20,8 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $userService = new UserService();
-        $userService->can("view", User::class);
+        UserService::can("view", User::class);
 
         $users = User::orderBy('name')->paginate(25);
         return view(
@@ -37,8 +36,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $userService = new UserService();
-        $userService->can("create", User::class);
+        UserService::can("create", User::class);
 
         $departments = Department::all();
         $profiles = Profile::all();
@@ -56,10 +54,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $userService = new UserService();
-        $userService->can("create", User::class);
+        UserService::can("create", User::class);
 
-        $user = $userService->createUser($request->name, $request->email, $request->password);
+        $user = UserService::createUser($request->name, $request->email, $request->password);
 
         $user->departments()->attach($request->department_id);
 
@@ -75,8 +72,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $userService = new UserService();
-        $userService->can("view", User::class);
+        UserService::can("view", User::class);
 
         return view(
             'users.show',
@@ -91,8 +87,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $userService = new UserService();
-        $userService->can("update", User::class);
+        UserService::can("update", User::class);
 
         $departments = Department::all();
         $profiles = Profile::all();
@@ -111,10 +106,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $userService = new UserService();
-        $userService->can("update", User::class);
+        UserService::can("update", User::class);
 
-        $userService->updateUser($user, $request->name, $request->email);
+        UserService::updateUser($user, $request->name, $request->email);
 
         if (!$request->department_id || !$request->profile_id) {
             abort(404);
@@ -142,8 +136,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $userService = new UserService();
-        $userService->can("delete", User::class);
+        UserService::can("delete", User::class);
 
         $user->delete();
         return redirect()->route('users.index');
