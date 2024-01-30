@@ -14,6 +14,12 @@
                     @csrf
 
                     <fildset>
+                        Nome:
+                        <input type="text" name="name" id="" class="form-control" required
+                               value="{{ old('name', \App\Services\DocumentService::getName($document)) }}"><br>
+                        @error('name') <span class="text-danger">{{ $message }}</span><br>@enderror
+                    </fildset>
+                    <fildset>
                         Permissões de User:
                         <br>
                         <label for="addUserPermission">adicionar permissão a um user? (selecionar para sim, caso

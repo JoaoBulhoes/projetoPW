@@ -23,8 +23,7 @@ class DocumentPolicy
      */
     public function view(User $user, Document $document): bool
     {
-        $documentService = new DocumentService();
-        return $documentService->canAccess($document, "view");
+        return DocumentService::canAccess($document, "view");
     }
 
     /**
@@ -41,8 +40,7 @@ class DocumentPolicy
      */
     public function update(User $user, Document $document): bool
     {
-        $documentService = new DocumentService();
-        return $documentService->canAccess($document, "update");
+        return DocumentService::canAccess($document, "update");
     }
 
     /**
@@ -50,14 +48,12 @@ class DocumentPolicy
      */
     public function delete(User $user, Document $document): bool
     {
-        $documentService = new DocumentService();
-        return $documentService->canAccess($document, "delete");
+        return DocumentService::canAccess($document, "delete");
     }
 
     public function download(User $user, Document $document): bool
     {
-        $documentService = new DocumentService();
-        return $documentService->canAccess($document, "download");
+        return DocumentService::canAccess($document, "download");
     }
 
     /**

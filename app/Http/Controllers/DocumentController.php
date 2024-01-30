@@ -46,14 +46,13 @@ class DocumentController extends Controller
     {
         $file = $request->file('file');
 
-        $documentService = new DocumentService();
         $fileExtension = $file->getClientOriginalExtension();
         $filePath = $file->storeAs('uploaded_files', $request->name . '.' . $fileExtension);
-        $document = $documentService->createDocument($filePath);
+        $document = DocumentService::createDocument($filePath);
 
-        $documentService->setMainAtributes($document, $request->name, $fileExtension);
+        DocumentService::setMainAtributes($document, $request->name, $fileExtension);
 
-        $documentService->createAuthorPermission($document);
+        DocumentService::createAuthorPermission($document);
 
         return redirect()->route('documents.index');
     }
@@ -63,9 +62,8 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
-        $documentService = new DocumentService();
-        $documentService->can($document, "view");
-        $metadataTypeInfo = $documentService->getDocumentMetadataTypes($document);
+        DocumentService::can($document, "view");
+        $metadataTypeInfo = DocumentService::getDocumentMetadataTypes($document);
 
         return view(
             'documents.show',
@@ -81,8 +79,7 @@ class DocumentController extends Controller
      */
     public function edit(Document $document)
     {
-        $documentService = new DocumentService();
-        $documentService->can($document, "update");
+        DocumentService::can($document, "update");
 
         $metadataTypes = MetadataType::all();
         $users = User::all();
@@ -104,10 +101,9 @@ class DocumentController extends Controller
      */
     public function update(Request $request, Document $document)
     {
-        $documentService = new DocumentService();
-        $documentService->can($document, "update");
+        DocumentService::can($document, "update");
 
-        $documentService->changeName($document, $request->name);
+        DocumentService::changeName($document, $request->name);
 
         if (!$request->metadataType_id) {
             abort(404);
@@ -123,9 +119,9 @@ class DocumentController extends Controller
             $addDepartmentPerm = $request->addDepartmentPermission;
         }
 
-        $documentService->addUserPermission($document, $request->userId, $request->userPermissionType, $addUserPerm);
+        DocumentService::addUserPermission($document, $request->userId, $request->userPermissionType, $addUserPerm);
 
-        $documentService->addDepartmentPermission($document, $request->departmentId, $request->departmentPermissionType, $addDepartmentPerm);
+        DocumentService::addDepartmentPermission($document, $request->departmentId, $request->departmentPermissionType, $addDepartmentPerm);
 
         $document->metadataTypes()->detach($request->metadataType_id);
 
@@ -143,8 +139,7 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
-        $documentService = new DocumentService();
-        $documentService->can($document, "delete");
+        DocumentService::can($document, "delete");
 
         $document->delete();
         return redirect()->route('documents.index');

@@ -38,14 +38,12 @@ class DocumentApiController extends Controller
             return response()->json(['message' => 'Informaçao insuficiente'], 400);
         }
 
-        $documentService = new DocumentService();
-
         $filePath = 'uploaded_files' . $request->name . '.' . $request->fileExtension;
-        $document = $documentService->createDocument($filePath);
+        $document = DocumentService::createDocument($filePath);
 
-        $documentService->setMainAtributes($document, $request->name, $request->fileExtension);
+        DocumentService::setMainAtributes($document, $request->name, $request->fileExtension);
 
-        $documentService->createAuthorPermission($document);
+        DocumentService::createAuthorPermission($document);
 
         return new DocumentResource($document);
     }
@@ -59,7 +57,7 @@ class DocumentApiController extends Controller
 
         try {
             $document = Document::findOrFail($id);
-            if (!Auth::user()->tokenCan('documents:show') || !$documentService->canAccess($document, "view")) {
+            if (!Auth::user()->tokenCan('documents:show') || !DocumentService::canAccess($document, "view")) {
                 return response()->json(['message' => 'FORBIDDEN'], 403);
             }
 
@@ -82,15 +80,14 @@ class DocumentApiController extends Controller
         if (!$request->has("name")) {
             return response()->json(['message' => 'Informaçao insuficiente'], 400);
         }
-        $documentService = new DocumentService();
 
         try {
             $document = Document::findOrFail($id);
-            if (!Auth::user()->tokenCan('documents:update') || !$documentService->canAccess($document, "update")) {
+            if (!Auth::user()->tokenCan('documents:update') || !DocumentService::canAccess($document, "update")) {
                 return response()->json(['message' => 'FORBIDDEN'], 403);
             }
 
-            $documentService->changeName($document, $request->name);
+            DocumentService::changeName($document, $request->name);
             $document->save();
 
             return new DocumentResource($document);
@@ -108,11 +105,10 @@ class DocumentApiController extends Controller
      */
     public function destroy(string $id)
     {
-        $documentService = new DocumentService();
 
         try {
             $document = Document::findOrFail($id);
-            if (!Auth::user()->tokenCan('documents:delete') || !$documentService->canAccess($document, "delete")) {
+            if (!Auth::user()->tokenCan('documents:delete') || !DocumentService::canAccess($document, "delete")) {
                 return response()->json(['message' => 'FORBIDDEN'], 403);
             }
             $document->delete();

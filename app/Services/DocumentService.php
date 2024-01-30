@@ -11,26 +11,26 @@ use Illuminate\Support\Facades\Auth;
 class DocumentService
 {
 
-    private $perm = array(
+    private static $perm = array(
         1 => "view",
         2 => "update",
         3 => "download",
         4 => "delete",
     );
 
-    public function can(Document $document, string $action): void
+    public static function can(Document $document, string $action): void
     {
-        if (!$this->canAccess($document, $action)) {
+        if (!DocumentService::canAccess($document, $action)) {
             abort(405);
         }
     }
 
-    public function canAccess(Document $document, string $action): bool
+    public static function canAccess(Document $document, string $action): bool
     {
-        return $this->userHasAccess($document, $action) || $this->departmentHasAccess($document, $action);
+        return DocumentService::userHasAccess($document, $action) || DocumentService::departmentHasAccess($document, $action);
     }
 
-    public function userHasAccess(Document $document, string $action): bool
+    public static function userHasAccess(Document $document, string $action): bool
     {
         $queryResult = User::query()
             ->join("permissions", "users.id", "=", "permissions.user_id")
@@ -46,7 +46,7 @@ class DocumentService
         return false;
     }
 
-    public function departmentHasAccess(Document $document, string $action): bool
+    public static function departmentHasAccess(Document $document, string $action): bool
     {
         $queryResult = Document::query()
             ->join("department_document", "documents.id", "=", "department_document.document_id")
@@ -70,7 +70,7 @@ class DocumentService
         return false;
     }
 
-    public function createDocument(string $path): Document
+    public static function createDocument(string $path): Document
     {
         $document = Document::create([
             "path" => $path,
@@ -80,7 +80,7 @@ class DocumentService
         return $document;
     }
 
-    public function setMainAtributes(Document $document, string $name, string $extension)
+    public static function setMainAtributes(Document $document, string $name, string $extension)
     {
 
         $document->metadataTypes()->attach(1, [
@@ -93,7 +93,7 @@ class DocumentService
 
     }
 
-    public function getDocumentMetadataTypes(Document $document)
+    public static function getDocumentMetadataTypes(Document $document)
     {
         $queryResult = Document::query()
             ->join("document_metadata_type", "document_metadata_type.document_id", "=", "documents.id")
@@ -104,7 +104,7 @@ class DocumentService
         return $queryResult;
     }
 
-    public function createAuthorPermission($document)
+    public static function createAuthorPermission($document)
     {
         $authorPermission = Permission::create([
             'view' => 1,
@@ -118,7 +118,7 @@ class DocumentService
         $authorPermission->save();
     }
 
-    public function addUserPermission(Document $document, string $userId, string $permissionType, string $value="0")
+    public static function addUserPermission(Document $document, string $userId, string $permissionType, string $value = "0")
     {
         $permission = Permission::where("document_id", "=", $document->id)
             ->where("user_id", "=", $userId)
@@ -144,15 +144,15 @@ class DocumentService
         }
 
         $permission->update([
-            $this->perm[$permissionType] => $value,
+            DocumentService::$perm[$permissionType] => $value,
         ]);
     }
 
-    public function addDepartmentPermission(Document $document, string $departmentId, string $permissionType, string $value)
+    public static function addDepartmentPermission(Document $document, string $departmentId, string $permissionType, string $value)
     {
         $document->departments()->detach($departmentId);
 
-        if ($permissionType == 5){
+        if ($permissionType == 5) {
             $document->departments()->attach($departmentId, [
                 "view" => $value,
                 "update" => $value,
@@ -165,12 +165,24 @@ class DocumentService
                 "update" => 0,
                 "download" => 0,
                 "delete" => 0,
-                $this->perm[$permissionType] => $value
+                DocumentService::$perm[$permissionType] => $value
             ]);
         }
     }
 
-    public function changeName(Document $document, String $name)
+    public static function getName(Document $document): string
+    {
+        $query = $document->query()
+            ->join("document_metadata_type", "documents.id", "=", "document_metadata_type.document_id")
+            ->where("document_metadata_type.document_id", $document->id)
+            ->where("document_metadata_type.metadata_type_id", 1)
+            ->select("document_metadata_type.value")
+            ->get();
+
+        return $query[0]["value"];
+    }
+
+    public static function changeName(Document $document, string $name)
     {
         $document->metadataTypes()->detach(1);
         $document->metadataTypes()->attach(1, [
