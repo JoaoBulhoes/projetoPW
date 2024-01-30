@@ -32,12 +32,12 @@ class DatabaseSeeder extends Seeder
         if (App::environment() == 'local' || App::environment() == 'testing') {
             $this->call(AdminProfileSeeder::class);
             $this->call(DefaultUserSeeder::class);
+            $this->call(DefaultDepartmentSeeder::class);
 
             User::factory(30)->create();
             Document::factory(30)->create();
             Revision::factory(30)->create();
             Permission::factory(30)->create();
-            Department::factory(30)->create();
             Profile::factory(30)->create();
             FileLink::factory(30)->create();
 
