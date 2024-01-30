@@ -80,7 +80,7 @@ class DocumentApiController extends Controller
     public function update(Request $request, string $id)
     {
         if (!$request->has("name")) {
-            return response()->json(['message' => 'FORBIDDEN'], 403);
+            return response()->json(['message' => 'Informaçao insuficiente'], 400);
         }
         $documentService = new DocumentService();
 
