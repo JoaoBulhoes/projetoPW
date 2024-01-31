@@ -33,16 +33,18 @@ class DatabaseSeeder extends Seeder
             $this->call(AdminProfileSeeder::class);
             $this->call(DefaultUserSeeder::class);
             $this->call(DefaultDepartmentSeeder::class);
+            $this->call(DefaultMetadataTypeSeeder::class);
+
+            for ($i = 0; $i < 30; $i++) {
+                $this->call(DefaultDocumentTypeSeeder::class);
+            }
 
             User::factory(30)->create();
-            Document::factory(30)->create();
             Revision::factory(30)->create();
             Permission::factory(30)->create();
             Profile::factory(30)->create();
             FileLink::factory(30)->create();
 
-            $this->call(DefaultMetadataTypeSeeder::class);
-            MetadataType::factory(30)->create();
         }
     }
 }
