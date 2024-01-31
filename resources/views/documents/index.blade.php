@@ -14,7 +14,8 @@
                     <thead>
                     <tr>
                         <th>Código</th>
-                        <th>path</th>
+                        <th>Nome</th>
+                        <th>Path</th>
                         <th class="text-end">Ações</th>
                     </tr>
                     </thead>
@@ -23,6 +24,8 @@
                     @foreach($documents as $document)
                         <tr>
                             <td>{{ $document->id }}</td>
+                            <td><p class="file_name">{{ \App\Services\DocumentService::getName($document) }}</p></td>
+{{--                            <td>{{ \App\Services\DocumentService::getName($document) }}</td>--}}
                             <td>{{ $document->path }}</td>
                             <td class="text-end">
                                 @can('view', $document)
@@ -58,4 +61,13 @@
             </div>
         </div>
     </div>
+    <style>
+        .file_name {
+            width:250px;
+            margin:0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 @endsection
