@@ -27,8 +27,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('/users', \App\Http\Controllers\UserController::class);
-    Route::resource('/documents', \App\Http\Controllers\DocumentController::class);
+    Route::resource('/users', \App\Http\Controllers\UserController::class)
+        ->except(["index"]);
+    Route::get('/users', \App\Livewire\Users\UserIndexLivewire::class)
+        ->name('users.index');
+
+    Route::resource('/documents', \App\Http\Controllers\DocumentController::class)
+        ->except(["index"]);
+    Route::get('/documents', \App\Livewire\Documents\DocumentIndexLivewire::class)
+        ->name('documents.index');
+
     Route::resource('/departments', \App\Http\Controllers\DepartmentController::class);
     Route::resource('/metadataTypes', \App\Http\Controllers\MetadataTypeController::class);
 });
