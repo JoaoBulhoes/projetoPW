@@ -60,7 +60,7 @@ class DocumentApiTest extends TestCase
         $this->refreshApplication();
 
         $user = UserService::createUser("testUser", fake()->email(), "123");
-        $token = $user->createToken('can_view_negativo', ['documents:show'])->plainTextToken;
+        $token = $user->createToken('can_show_negativo', ['documents:show'])->plainTextToken;
 
         $document = DocumentService::createDocument("asdf");
 
@@ -79,7 +79,7 @@ class DocumentApiTest extends TestCase
         $this->refreshApplication();
 
         $user = UserService::createUser("testUser", fake()->email(), "123");
-        $token = $user->createToken('can_view_positivo', ['documents:show'])->plainTextToken;
+        $token = $user->createToken('can_show_positivo', ['documents:show'])->plainTextToken;
         Auth::login($user);
 
         $document = DocumentService::createDocument("path2");
@@ -94,22 +94,45 @@ class DocumentApiTest extends TestCase
         );
         $response->assertStatus(200);
     }
-        $this->refreshApplication();
-        $userService = new UserService();
-        $documentService = new DocumentService();
 
-        $user = $userService->createUser("user2", "c", "123");
-        $token = $user->createToken('test_positivo', ['documents:show'])->plainTextToken;
+    public function test_can_update_without_permission(): void
+    {
+        $this->refreshApplication();
+
+        $user = UserService::createUser("testUser", fake()->email(), "123");
+        $token = $user->createToken('can_update_negativo', ['documents:update'])->plainTextToken;
         Auth::login($user);
 
-        $document = $documentService->createDocument("path2");
-        $documentService->createAuthorPermission($document);
+        $document = DocumentService::createDocument("asdf");
 
-        $response = $this->get(
+        $response = $this->put(
             '/api/documents/' . $document->id,
             [
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token
+                'Authorization' => 'Bearer ' . $token,
+                'name' => 'api name'
+            ]
+        );
+        $response->assertStatus(403);
+    }
+
+    public function test_can_update_with_permission()
+    {
+        $this->refreshApplication();
+
+        $user = UserService::createUser("testUser", fake()->email(), "123");
+        $token = $user->createToken('can_update_positivo', ['documents:show'])->plainTextToken;
+        Auth::login($user);
+
+        $document = DocumentService::createDocument("path2");
+        DocumentService::createAuthorPermission($document);
+
+        $response = $this->put(
+            '/api/documents/' . $document->id,
+            [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token,
+                'name' => 'api name'
             ]
         );
         $response->assertStatus(200);
