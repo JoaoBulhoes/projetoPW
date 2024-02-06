@@ -28,7 +28,7 @@ class DocumentApiTest extends TestCase
 
 
         $user = UserService::createUser("testUser", fake()->email(), "123");
-        $token = $user->createToken('can_index_negatico', ['aaaa'])->plainTextToken;
+        $token = $user->createToken('can_index_negatico', ['asdf'])->plainTextToken;
 
         $response = $this->get(
             '/api/documents',
@@ -60,7 +60,7 @@ class DocumentApiTest extends TestCase
         $this->refreshApplication();
 
         $user = UserService::createUser("testUser", fake()->email(), "123");
-        $token = $user->createToken('can_show_negativo', ['documents:show'])->plainTextToken;
+        $token = $user->createToken('can_show_negativo', ['asdf'])->plainTextToken;
 
         $document = DocumentService::createDocument("asdf");
 
@@ -100,7 +100,7 @@ class DocumentApiTest extends TestCase
         $this->refreshApplication();
 
         $user = UserService::createUser("testUser", fake()->email(), "123");
-        $token = $user->createToken('can_update_negativo', ['documents:update'])->plainTextToken;
+        $token = $user->createToken('can_update_negativo', ['asdf'])->plainTextToken;
         Auth::login($user);
 
         $document = DocumentService::createDocument("asdf");
@@ -133,6 +133,48 @@ class DocumentApiTest extends TestCase
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token,
                 'name' => 'api name'
+            ]
+        );
+        $response->assertStatus(200);
+    }
+
+    public function test_can_delete_without_permission(): void
+    {
+        $this->refreshApplication();
+
+        $user = UserService::createUser("testUser", fake()->email(), "123");
+        $token = $user->createToken('can_delete_negativo', ['asdf'])->plainTextToken;
+        Auth::login($user);
+
+        $document = DocumentService::createDocument("asdf");
+
+        $response = $this->delete(
+            '/api/documents/' . $document->id,
+            [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token,
+                'name' => 'api name'
+            ]
+        );
+        $response->assertStatus(403);
+    }
+
+    public function test_can_delete_with_permission()
+    {
+        $this->refreshApplication();
+
+        $user = UserService::createUser("testUser", fake()->email(), "123");
+        $token = $user->createToken('can_delete_positivo', ['documents:delete'])->plainTextToken;
+        Auth::login($user);
+
+        $document = DocumentService::createDocument("path2");
+        DocumentService::createAuthorPermission($document);
+
+        $response = $this->delete(
+            '/api/documents/' . $document->id,
+            [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token,
             ]
         );
         $response->assertStatus(200);
