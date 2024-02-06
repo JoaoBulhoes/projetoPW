@@ -72,6 +72,10 @@ class UserApiController extends Controller
             return response()->json(['message' => 'Informaçao insuficiente'], 400);
         }
 
+        if (!auth()->user()->tokenCan('users:update') || !UserService::is_admin(auth()->user())) {
+            return response()->json(['message' => 'FORBIDDEN'], 403);
+        }
+
         try {
             $user = User::findOrFail($id);
 
@@ -92,7 +96,7 @@ class UserApiController extends Controller
      */
     public function destroy(string $id)
     {
-        if (!auth()->user()->tokenCan('users:delete')) {
+        if (!auth()->user()->tokenCan('users:delete') || !UserService::is_admin(auth()->user())) {
             return response()->json(['message' => 'FORBIDDEN'], 403);
         }
 
