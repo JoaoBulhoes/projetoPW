@@ -153,7 +153,6 @@ class DocumentApiTest extends TestCase
             [
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token,
-                'name' => 'api name'
             ]
         );
         $response->assertStatus(403);
