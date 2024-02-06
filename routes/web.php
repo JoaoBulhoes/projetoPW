@@ -29,13 +29,13 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/users', \App\Http\Controllers\UserController::class)
         ->except(["index"]);
-    Route::get('/users', \App\Livewire\Users\UserIndexLivewire::class)
+    Route::get('/users', \App\Http\Livewire\UserIndex::class)
         ->name('users.index');
 
-    Route::resource('/documents', \App\Http\Controllers\DocumentController::class)
-        ->except(["index"]);
-    Route::get('/documents', \App\Livewire\Documents\DocumentIndexLivewire::class)
-        ->name('documents.index');
+    Route::resource('/documents', \App\Http\Controllers\DocumentController::class);
+//        ->except(["index"]);
+//    Route::get('/documents', \App\Livewire\Documents\DocumentIndexLivewire::class)
+//        ->name('documents.index');
 
     Route::resource('/departments', \App\Http\Controllers\DepartmentController::class);
     Route::resource('/metadataTypes', \App\Http\Controllers\MetadataTypeController::class);
