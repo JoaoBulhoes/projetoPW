@@ -25,7 +25,6 @@
                         <tr>
                             <td>{{ $document->id }}</td>
                             <td><p class="file_name">{{ \App\Services\DocumentService::getName($document) }}</p></td>
-{{--                            <td>{{ \App\Services\DocumentService::getName($document) }}</td>--}}
                             <td>{{ $document->path }}</td>
                             <td class="text-end">
                                 @can('view', $document)
