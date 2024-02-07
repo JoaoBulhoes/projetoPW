@@ -32,10 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/users', \App\Http\Livewire\UserIndex::class)
         ->name('users.index');
 
-    Route::resource('/documents', \App\Http\Controllers\DocumentController::class);
-//        ->except(["index"]);
-//    Route::get('/documents', \App\Livewire\Documents\DocumentIndexLivewire::class)
-//        ->name('documents.index');
+    Route::resource('/documents', \App\Http\Controllers\DocumentController::class)
+        ->except(["index"]);
+    Route::get('/documents', \App\Http\Livewire\DocumentIndex::class)
+        ->name('documents.index');
 
     Route::resource('/departments', \App\Http\Controllers\DepartmentController::class);
     Route::resource('/metadataTypes', \App\Http\Controllers\MetadataTypeController::class);
