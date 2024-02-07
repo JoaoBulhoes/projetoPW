@@ -92,7 +92,6 @@ class DocumentApiTest extends TestCase
         $response->assertStatus(200);
     }
 
-<<<<<<< HEAD
     public function test_can_update_without_permission(): void
     {
         $this->refreshApplication();
@@ -102,17 +101,6 @@ class DocumentApiTest extends TestCase
         Auth::login($user);
 
         $document = DocumentService::createDocument("asdf");
-=======
-    public function test_update(){
-        $this->refreshApplication();
-
-        $user = UserService::createUser("testUser", fake()->email(), "123");
-        $token = $user->createToken('can_update_negativo', ['documents:show'])->plainTextToken;
-        Auth::login($user);
-
-        $document = DocumentService::createDocument("path2");
-        DocumentService::createAuthorPermission($document);
->>>>>>> dcc7f08 (tentativa de fazer funcionar)
 
         $response = $this->put(
             '/api/documents/' . $document->id,
