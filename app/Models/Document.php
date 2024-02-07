@@ -11,7 +11,8 @@ class Document extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'path'
+        'path',
+        'updated_at'
     ];
 
     public function revisions()

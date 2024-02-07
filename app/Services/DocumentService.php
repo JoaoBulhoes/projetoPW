@@ -184,6 +184,11 @@ class DocumentService
 
     public static function changeName(Document $document, string $name)
     {
+        $document->update([
+            "updated_at" => Carbon::now()
+        ]);
+        $document->save();
+
         $document->metadataTypes()->detach(1);
         $document->metadataTypes()->attach(1, [
             'value' => $name,

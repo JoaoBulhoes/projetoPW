@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,6 +29,7 @@ class UserService
         $user->update([
             "name" => $name,
             "email" => $email,
+            "updated_at" => Carbon::now(),
         ]);
     }
 
