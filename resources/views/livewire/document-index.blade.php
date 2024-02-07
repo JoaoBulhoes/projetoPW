@@ -1,17 +1,18 @@
 <div class="row mt-5">
     <div class="col-6">
-        <p class="lead">Filtro</p>
-        <input type="text" wire:model.debounce.500ms="search" class="form-control" placeholder="nome do ficheiro">
+        <input type="text" wire:model.debounce.500ms="search" class="form-control" placeholder="procurar por nome do ficheiro">
     </div>
 
-    <div class="col">
+    <div class="col-4">
         <p class="text-right">
             <a href="{{ route('documents.create') }}" class="btn btn-primary">
                 <i class="fa fa-plus fa-fw mr-2"></i>Adicionar Documento
             </a>
         </p>
+    </div>
 
-        <br>
+    <br>
+    <div class="col">
         <table class="table table-striped table-hover">
             <thead>
             <tr>
@@ -27,7 +28,8 @@
                 {{-- @if($document->id !== \Illuminate\Support\Facades\Auth::id())--}}
                 <tr>
                     <td>{{ $document->id }}</td>
-                    <td><p class="file_name">{{ \App\Services\DocumentService::getName($document) }}</p></td>
+                    @php($doc_name = \App\Services\DocumentService::getName($document))
+                    <td><p class="file_name" title="{{ $doc_name }}">{{ $doc_name }}</p></td>
                     <td>{{ $document->path }}</td>
                     <td class="text-end">
                         @can('view', $document)

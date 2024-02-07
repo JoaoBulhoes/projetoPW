@@ -1,18 +1,18 @@
 <div class="row mt-5">
-    <div class="col-6">
-        <p class="lead">Filtro</p>
-        <input type="text" wire:model.debounce.500ms="search" class="form-control">
+    <div class="col-4">
+{{--        <p class="lead">Filtro</p>--}}
+        <input type="text" wire:model.debounce.500ms="search" class="form-control" placeholder="procurar por nome do utilizador">
     </div>
 
     <div class="col-4">
-        <p class="lead">Departamento</p>
+{{--        <p class="lead">Departamento</p>--}}
         <select wire:model="department" class="form-control" name="department" id="department">
-            <option value=""></option>
+            <option value="">procurar por departamentos</option>
             <option value="1">Contabilidade</option>
         </select>
     </div>
 
-    <div class="col">
+    <div class="col-4">
         @can('create', \App\Models\User::class)
             <p class="text-right">
                 <a href="{{ route('users.create') }}" class="btn btn-primary">
@@ -20,7 +20,9 @@
                 </a>
             </p>
         @endcan
+    </div>
 
+    <div class="col">
         <table class="table table-striped table-hover">
             <thead>
             <tr>
