@@ -18,9 +18,9 @@ Route::get('/', function () {
     return view('welcome-pw');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -39,6 +39,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/departments', \App\Http\Controllers\DepartmentController::class);
     Route::resource('/metadataTypes', \App\Http\Controllers\MetadataTypeController::class);
+
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
 });
 
 require __DIR__.'/auth.php';
