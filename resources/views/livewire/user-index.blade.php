@@ -8,6 +8,9 @@
 {{--        <p class="lead">Departamento</p>--}}
         <select wire:model="department" class="form-control" name="department" id="department">
             <option value="">procurar por departamentos</option>
+            @foreach($departments as $department)
+                <option value="{{ $department->id }}">{{ $department->name }}</option>
+            @endforeach
             <option value="1">Contabilidade</option>
         </select>
     </div>
@@ -28,6 +31,7 @@
             <tr>
                 <th>Nome</th>
                 <th>Email</th>
+                <th>Departamentos</th>
                 <th class="text-end">Ações</th>
             </tr>
             </thead>
@@ -38,6 +42,11 @@
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>
+                        @foreach($user->departments as $department)
+                            <p>{{ $department->name }}</p>
+                        @endforeach
+                    </td>
                     <td class="text-end">
                         <a href="{{ route('users.show', ['user' => $user]) }}"
                            class="btn btn-primary btn-sm">Ver</a>
