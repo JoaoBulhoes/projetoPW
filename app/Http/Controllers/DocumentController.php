@@ -8,6 +8,7 @@ use App\Models\MetadataType;
 use App\Models\User;
 use App\Services\DocumentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -134,6 +135,13 @@ class DocumentController extends Controller
         return redirect()->route('documents.show', ['document' => $document]);
     }
 
+    public function download(Document $document)
+    {
+        if (Storage::exists($document->path)) {
+            return Storage::download($document->path);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -144,4 +152,5 @@ class DocumentController extends Controller
         $document->delete();
         return redirect()->route('documents.index');
     }
+
 }

@@ -38,7 +38,7 @@
                         @endcan
 
                         @can('download', $document)
-                            <a href="{{ route('documents.edit', ['document' => $document]) }}"
+                            <a href="{{ route('documents.download', ['document' => $document]) }}"
                                class="btn btn-primary btn-sm">Download</a>
                         @endcan
 

@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
         ->except(["index"]);
     Route::get('/documents', \App\Http\Livewire\DocumentIndex::class)
         ->name('documents.index');
+    Route::get('/documents/{document}/download', [App\Http\Controllers\DocumentController::class, 'download'])
+        ->name('documents.download');
 
     Route::resource('/departments', \App\Http\Controllers\DepartmentController::class);
     Route::resource('/metadataTypes', \App\Http\Controllers\MetadataTypeController::class);
