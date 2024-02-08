@@ -140,6 +140,7 @@ class DocumentController extends Controller
         if (Storage::exists($document->path)) {
             return Storage::download($document->path);
         }
+        return redirect()->back();
     }
 
     /**
