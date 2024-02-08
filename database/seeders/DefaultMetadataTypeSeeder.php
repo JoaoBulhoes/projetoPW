@@ -23,5 +23,20 @@ class DefaultMetadataTypeSeeder extends Seeder
             'name' => 'extension',
         ]);
         $metadatatype->save();
+
+        $metadatatype = metadatatype::create([
+            'name' => 'duration',
+        ]);
+        $metadatatype->save();
+
+        $metadatatype = metadatatype::create([
+            'name' => 'location',
+        ]);
+        $metadatatype->save();
+
+        $metadatatype = metadatatype::create([
+            'name' => 'aslkfd',
+        ]);
+        $metadatatype->save();
     }
 }

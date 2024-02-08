@@ -123,7 +123,7 @@ class DocumentService
         $permission = Permission::where("document_id", "=", $document->id)
             ->where("user_id", "=", $userId)
             ->firstOr(function () use ($document, $userId) {
-                Permission::create([
+                return Permission::create([
                     "view" => 0,
                     "update" => 0,
                     "download" => 0,
@@ -187,7 +187,6 @@ class DocumentService
         $document->update([
             "updated_at" => Carbon::now()
         ]);
-        $document->save();
 
         $document->metadataTypes()->detach(1);
         $document->metadataTypes()->attach(1, [
